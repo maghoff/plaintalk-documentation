@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<link href='https://fonts.googleapis.com/css?family=Cherry+Swash' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+<style>
+
+body {
+	padding: 0;
+	margin: 0;
+
+	font-family: "Fenix";
+	font-size: 20px;
+	line-height: 26px;
+	color: #444;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: normal;
+}
+
+a, a:visited, a:hover {
+	color: #4c66b2;
+}
+
+.banner {
+	background: rgb(237, 67, 55);
+	color: white;
+	padding-top: 100px;
+	font-size: 96px;
+	line-height: normal;
+	font-family: "Cherry Swash" sans-serif;
+}
+
+.content {
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+p {
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+.plaintalk {
+	margin-left: 1em;
+	margin-right: 1em;
+
+	border-radius: 5px;
+	padding: 10px 20px;
+
+/*	background: #272822;*/
+	background: #333;
+	color: white;
+
+	font-family: "Inconsolata", monospace;
+	font-size: 20px;
+	line-height: 30px;
+}
+
+.field {
+}
+
+.to-server {
+	color: #66cc91;
+}
+
+.to-server .control {
+	color: #575;
+}
+
+.from-server {
+	color: rgb(237, 67, 55);
+}
+
+.from-server .control {
+	color: #755;
+}
+
+</style>
+</head>
+<body>
+
+<div class="banner">
+<div class="content">
+PlainTalk
+</div>
+</div>
+
+<div class="content">
+<p>
+PlainTalk is a <a href="...">message</a> and <a href="...">field framing</a> protocol that
+is human readable and writable while still efficiently processable by computers.
+PlainTalk was designed by <a href="...">Rolf Wilhelm Rasmussen</a> for use in real time
+graphics systems for broadcast TV.
+</p>
+
+<h1>What does it look like?</h1>
+<pre class="plaintalk">
+<span class="to-server"><span class="field">0</span> <span class="field">protocol</span> <span class="field">doubletalk</span><span class="control">↲</span></span>
+<span class="from-server"><span class="field">0</span> <span class="field">protocol</span> <span class="field">doubletalk</span><span class="control">↲</span></span>
+<span class="to-server"><span class="field">1</span> <span class="field">define</span> <span class="field">freedom</span><span class="control">↲</span></span>
+<span class="from-server"><span class="field">1</span> <span class="field">ok</span> <span class="field"><span class="control">{18}</span>freedom is slavery</span><span class="control">↲</span></span>
+</pre>
+
+</div>
+
+</body>
+</html>
