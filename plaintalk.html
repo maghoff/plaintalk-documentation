@@ -2,85 +2,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+<!--
 <link href='https://fonts.googleapis.com/css?family=Cherry+Swash' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
-<style>
+-->
+<link href='plaintalk.css' rel='stylesheet' type='text/css'>
 
-body {
-	padding: 0;
-	margin: 0;
+<!--
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+-->
+<script src="d3.v3.min.js" charset="utf-8"></script>
 
-	font-family: "Fenix";
-	font-size: 20px;
-	line-height: 26px;
-	color: #444;
-}
-
-h1, h2, h3, h4, h5, h6 {
-	font-weight: normal;
-}
-
-a, a:visited, a:hover {
-	color: #4c66b2;
-}
-
-.banner {
-	background: rgb(237, 67, 55);
-	color: white;
-	padding-top: 100px;
-	font-size: 96px;
-	line-height: normal;
-	font-family: "Cherry Swash" sans-serif;
-}
-
-.content {
-	width: 800px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-p {
-	margin-top: 40px;
-	margin-bottom: 40px;
-}
-
-.plaintalk {
-	margin-left: 1em;
-	margin-right: 1em;
-
-	border-radius: 5px;
-	padding: 10px 20px;
-
-/*	background: #272822;*/
-	background: #333;
-	color: white;
-
-	font-family: "Inconsolata", monospace;
-	font-size: 20px;
-	line-height: 30px;
-}
-
-.field {
-}
-
-.to-server {
-	color: #66cc91;
-}
-
-.to-server .control {
-	color: #575;
-}
-
-.from-server {
-	color: rgb(237, 67, 55);
-}
-
-.from-server .control {
-	color: #755;
-}
-
-</style>
 </head>
 <body>
 
@@ -92,21 +26,74 @@ PlainTalk
 
 <div class="content">
 <p>
-PlainTalk is a <a href="...">message</a> and <a href="...">field framing</a> protocol that
-is human readable and writable while still efficiently processable by computers.
-PlainTalk was designed by <a href="...">Rolf Wilhelm Rasmussen</a> for use in real time
-graphics systems for broadcast TV.
+PlainTalk is a <span class="has-definition" title="In other words: a protocol that splits
+a stream into discrete messages, each message composed of any number of fields.">
+message and field framing protocol</span> that is human readable and writable while still
+efficiently processable by computers. PlainTalk was designed by <a href="...">Rolf Wilhelm
+Rasmussen</a> for use in real time graphics systems for broadcast TV.
+</p>
+
+<p>
+When designing a network protocol, PlainTalk is a useful starting point. It fits in the
+network stack right underneath the application layer and offers a message based API to
+the layer above it.
 </p>
 
 <h1>What does it look like?</h1>
 <pre class="plaintalk">
-<span class="to-server"><span class="field">0</span> <span class="field">protocol</span> <span class="field">doubletalk</span><span class="control">↲</span></span>
-<span class="from-server"><span class="field">0</span> <span class="field">protocol</span> <span class="field">doubletalk</span><span class="control">↲</span></span>
-<span class="to-server"><span class="field">1</span> <span class="field">define</span> <span class="field">freedom</span><span class="control">↲</span></span>
-<span class="from-server"><span class="field">1</span> <span class="field">ok</span> <span class="field"><span class="control">{18}</span>freedom is slavery</span><span class="control">↲</span></span>
+<span class="message to-server"><span class="field">0</span> <span class="field">protocol</span> <span class="field">doubletalk</span></span>
+<span class="message from-server"><span class="field">0</span> <span class="field">protocol</span> <span class="field">doubletalk</span></span>
+<span class="message to-server"><span class="field">1</span> <span class="field">define</span> <span class="field">ignorance</span></span>
+<span class="message from-server"><span class="field">1</span> <span class="field">ok</span> <span class="field"><span class="control">{21}</span>ignorance is strength</span></span>
 </pre>
 
+<p>
+This is an example of what a network session using a PlainTalk-based protocol might look
+like. Each message is separated by a newline, each field is separated by a space.
+</p>
+
+<p>
+In the second message from the server, <code class="plaintalk field">
+ignorance is strength</code> is one field with embedded space characters. It is
+possible to transmit control characters by using the sequence <code class=
+"plaintalk"><span class="control">{<span class="annotation">n</span>}</span></code>,
+followed by <span class="annotation">n</span> bytes to be read
+verbatim, without interpretation. An escape sequence can appear anywhere within
+a field, so the byte sequence <code class="plaintalk"><span class=
+"control">{21}</span>ignorance is strength</code> is exactly equivalent to both
+<code class="plaintalk">ignorance<span class="control">{1}</span> is<span class="control">{1}</span> strength</code>
+and <code class="plaintalk">ignoranc<span class="control">{7}</span>e is strength</code>.
+This makes it easy to implement streaming of arbitrary binary data.
+</p>
+
+<p>
+The queries from the client have been shown interleaved with the responses from the server.
+However, each message is tagged with an identifier, which lets us use the protocol
+asynchronously, like this:
+</p>
+
+<pre class="plaintalk">
+<span class="message to-server"><span class="field">2</span> <span class="field">define</span> <span class="field">war</span></span>
+<span class="message to-server"><span class="field">3</span> <span class="field">define</span> <span class="field">freedom</span></span>
+<span class="message from-server"><span class="field">3</span> <span class="field">ok</span> <span class="field">freedom<span class="control">{1}</span> is<span class="control">{1}</span> slavery</span></span>
+<span class="message from-server"><span class="field">2</span> <span class="field">ok</span> <span class="field">war<span class="control">{1}</span> is<span class="control">{1}</span> peace</span></span>
+</pre>
+
+<p>
+Support for asynchronous handling of messages is not a part of PlainTalk, but it is
+recommended that protocols built on top of PlainTalk implement support for it this
+way.
+</p>
+<!--
+<h1>And stuff</h1>
+
+<svg width="800" height="300">
+<circle>
+</svg>
+-->
 </div>
+
+<div class="footer"><div class="content">&mdash; Magnus Hoff, 2013</div></div>
 
 </body>
 </html>

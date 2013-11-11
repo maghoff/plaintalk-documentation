@@ -1,0 +1,143 @@
+@font-face {
+	font-family: "Cherry Swash";
+	src: url("Cherry_Swash/CherrySwash-Regular.ttf");
+}
+
+@font-face {
+	font-family: "Fenix";
+	src: url("Fenix/Fenix-Regular.ttf");
+}
+
+@font-face {
+	font-family: "Inconsolata";
+	src: url("Inconsolata/Inconsolata-Regular.ttf");
+}
+
+
+body {
+	padding: 0;
+	margin: 0;
+
+	font-family: "Fenix";
+	font-size: 20px;
+	line-height: 26px;
+	color: #444;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: normal;
+	margin-top: 40px;
+}
+
+a, a:visited, a:hover {
+	color: #4c66b2;
+}
+
+.banner {
+	background: #ed4337;
+	color: white;
+	padding-top: 100px;
+	font-size: 96px;
+	line-height: normal;
+	font-family: "Cherry Swash" sans-serif;
+	margin-bottom: 40px;
+}
+
+.footer {
+	margin-top: 230px;
+	padding: 10px 0;
+
+	background: #ed4337;
+	color: white;
+
+	font-family: "Cherry Swash" sans-serif;
+	text-align: right;
+	line-height: 20px;
+}
+
+/*
+soft red: rgb(237, 67, 55);
+soft blue: #4c66b2;
+head in the grass: #A8C078;
+soft bright green: #C0D890;
+*/
+
+.has-definition {
+	color: #A8C078;
+	text-decoration: underline;
+}
+
+.content {
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+p {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.plaintalk {
+	font-family: "Inconsolata", monospace;
+	font-size: 20px;
+	line-height: 30px;
+}
+
+pre.plaintalk {
+	border-radius: 5px;
+
+	margin-left: 1em;
+	margin-right: 1em;
+
+	padding: 10px 0;
+
+	background: #272822;
+}
+
+code.plaintalk {
+	padding: 0 6px;
+
+	background: #eee;
+}
+
+.control {
+	color: #888;
+}
+
+.to-server {
+	color: #A8C078;
+}
+
+.message.to-server:before {
+	content: "→";
+	text-align: center;
+	display: inline-block;
+	width: 20px;
+	margin-right: 5px;
+	color: #888;
+}
+
+.from-server {
+	color: #ed4337;
+}
+
+.message.from-server:before {
+	content: "←";
+	text-align: center;
+	display: inline-block;
+	width: 20px;
+	margin-right: 5px;
+	color: #888;
+}
+
+.plaintalk .annotation {
+	font-family: "Fenix";
+	font-size: 20px;
+	line-height: 26px;
+	color: #444;
+}
+
+.annotation {
+	font-style: italic;
+}
