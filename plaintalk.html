@@ -66,6 +66,45 @@ and <code class="plaintalk">ignoranc<span class="control">{7}</span>e is strengt
 This makes it easy to implement streaming of arbitrary binary data.
 </p>
 
+<h1>That's it?</h1>
+
+<p>
+Basically, that's it. Newlines between messages, spaces between fields, plus an
+escaping mechanism. But let us go through all the details as well.
+</p>
+
+<svg width="800" height="300">
+<defs>
+	<marker id="arrow-end-lol" style="overflow:visible;" orient="auto">
+	<path
+		d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+		style="fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+		transform="scale(2) rotate(180) translate(1,0)"
+	/>
+	</marker>
+	<marker id="arrow-end" style="overflow:visible;" orient="auto">
+	<path
+		d="M -20 0 l -15 7 M -20 0 l -15 -7"
+		style="stroke:black; fill:none; stroke-linejoin:round;"
+	/>
+	</marker>
+</defs>
+<path class="transition" d="M 100 100 a 300,300 0 0 1 300,0"/>
+<path class="transition" d="M 50 100 l 50 0"/>
+<circle class="state" cx="100" cy="100" r="20"/>
+<circle class="state" cx="400" cy="100" r="20"/>
+<circle class="state" cx="480" cy="250" r="20"/>
+<circle class="state" cx="320" cy="250" r="20"/>
+</svg>
+
+<p>
+Basically, that's it. Newlines between messages, spaces between fields, plus an
+escaping mechanism. But let us go through all the details as well.
+</p>
+
+<div class="draft">
+<h1>Async</h1>
+
 <p>
 The queries from the client have been shown interleaved with the responses from the server.
 However, each message is tagged with an identifier, which lets us use the protocol
@@ -84,13 +123,8 @@ Support for asynchronous handling of messages is not a part of PlainTalk, but it
 recommended that protocols built on top of PlainTalk implement support for it this
 way.
 </p>
-<!--
-<h1>And stuff</h1>
+</div>
 
-<svg width="800" height="300">
-<circle>
-</svg>
--->
 </div>
 
 <div class="footer"><div class="content">&mdash; Magnus Hoff, 2013</div></div>

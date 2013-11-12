@@ -26,7 +26,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
 	font-weight: normal;
-	margin-top: 40px;
+	margin-top: 50px;
 }
 
 a, a:visited, a:hover {
@@ -140,4 +140,20 @@ code.plaintalk {
 
 .annotation {
 	font-style: italic;
+}
+
+.state {
+	fill: white;
+	stroke: #444;
+}
+
+.transition {
+	fill: none;
+	stroke: #444;
+
+	marker-end: url(#arrow-end);
+}
+
+.draft {
+	opacity: 0.5;
 }
