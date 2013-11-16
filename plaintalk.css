@@ -147,6 +147,10 @@ code.plaintalk {
 	color: #A8C078;
 }
 
+.to-server .field:hover {
+	color: #C9E58F;
+}
+
 .message.to-server:before {
 	content: "→";
 	text-align: center;
@@ -158,6 +162,14 @@ code.plaintalk {
 
 .from-server {
 	color: #ed4337;
+}
+
+.from-server .field:hover {
+	color: #F0917F;
+}
+
+.field:hover {
+	background: rgba(255, 255, 255, 0.1);
 }
 
 .message.from-server:before {
