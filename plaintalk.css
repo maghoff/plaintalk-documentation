@@ -132,7 +132,7 @@ pre.plaintalk {
 
 code.plaintalk {
 	padding: 0 6px;
-
+	white-space: nowrap;
 	background: #eee;
 }
 

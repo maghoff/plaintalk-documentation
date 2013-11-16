@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+<!--
+<link href='https://fonts.googleapis.com/css?family=Cherry+Swash' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+-->
+<link href='plaintalk.css' rel='stylesheet' type='text/css'>
+
+<!--
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+-->
+<script src="d3.v3.min.js" charset="utf-8"></script>
+
+</head>
+<body>
+
+<div class="banner">
+<div class="content">
+PlainTalk
+</div>
+</div>
+
+<div class="content">
+
+<h1>Async</h1>
+
+<p>
+The queries from the client have been shown interleaved with the responses from the server.
+However, each message is tagged with an identifier, which lets us use the protocol
+asynchronously, like this:
+</p>
+
+<pre class="plaintalk">
+<span class="message to-server"><span class="field">2</span> <span class="field">define</span> <span class="field">war</span></span>
+<span class="message to-server"><span class="field">3</span> <span class="field">define</span> <span class="field">freedom</span></span>
+<span class="message from-server"><span class="field">3</span> <span class="field">ok</span> <span class="field">freedom<span class="control">{1}</span> is<span class="control">{1}</span> slavery</span></span>
+<span class="message from-server"><span class="field">2</span> <span class="field">ok</span> <span class="field">war<span class="control">{1}</span> is<span class="control">{1}</span> peace</span></span>
+</pre>
+
+<p>
+Support for asynchronous handling of messages is not a part of PlainTalk, but it is
+recommended that protocols built on top of PlainTalk implement support for it this
+way.
+</p>
+
+</div>
+
+<div class="footer"><div class="content">&mdash; Magnus Hoff, 2013</div></div>
+
+</body>
+</html>
