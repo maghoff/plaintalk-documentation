@@ -28,7 +28,7 @@ PlainTalk
 <p>
 PlainTalk is a <span class="has-definition" title="In other words: a protocol that splits
 a stream into discrete messages, each message composed of any number of fields.">
-message and field framing protocol</span> that is human readable and writable while still
+message and field framing protocol</span> that is human readable and writable and
 efficiently processable by computers. PlainTalk was designed by
 <a href="https://plus.google.com/+RolfWRasmussen">Rolf W. Rasmussen</a> for use in real
 time graphics systems for broadcast TV.
@@ -84,9 +84,9 @@ which requires interpretation of an integer represented in ASCII.
 </p>
 
 <pre class="abnf">
-<span class="rule">plaintalk</span> <span class="equals">=</span> <span class="operator">*(</span> <span class="rule">message</span> <span class="rule">message-separator</span> <span class="operator">)</span>
+<span class="rule">plaintalk</span> <span class="equals">=</span> <span class="operator">*(</span> <span class="rule">message</span> <span class="rule">message-terminator</span> <span class="operator">)</span>
 
-<span class="rule">message-separator</span> <span class="equals">=</span> <span class="operator">[</span> <span class="terminal" title="Carriage return, %x0D">CR</span> <span class="operator">]</span> <span class="terminal" title="Line feed, %x0A">LF</span>
+<span class="rule">message-terminator</span> <span class="equals">=</span> <span class="terminal" title="Network (or Windows) line ending: Carriage return, line feed-pair, %x0d.0a">CRLF</span> <span class="operator">/</span> <span class="terminal" title="Unix line ending: Line feed, %x0a">LF</span>
 
 <span class="rule">message</span> <span class="equals">=</span> <span class="terminal">""</span>
 <span class="rule">message</span> <span class="equals">=/</span> <span class="rule">field</span> <span class="operator">*(</span> <span class="rule">field-separator</span> <span class="rule">field</span> <span class="operator">)</span>
@@ -96,11 +96,12 @@ which requires interpretation of an integer represented in ASCII.
 <span class="rule">field</span> <span class="equals">=</span> <span class="operator">*(</span> <span class="rule">safe-data</span> <span class="operator">/</span> <span class="rule">escape-sequence</span> <span class="operator">)</span>
 <span class="rule">safe-data</span> <span class="equals">=</span> <span class="operator">*(</span> <span class="rule">safe-byte</span> <span class="operator">)</span>
 
-<span class="comment">; A <span class="rule">&lt;safe-byte&gt;</span> is a binary octet that is not <span class="terminal" title="Carriage return, %x0D">CR</span>, <span class="terminal" title="Line feed, %x0A">LF</span>, <span class="terminal" title="Space, %x20">SP</span> or <span class="terminal" title="%x7b">"{"</span>:</span>
+<span class="comment">; A <span class="rule">&lt;safe-byte&gt;</span> is a binary octet that is not <span class="terminal" title="Carriage return, %x0d">CR</span>, <span class="terminal" title="Line feed, %x0a">LF</span>, <span class="terminal" title="Space, %x20">SP</span> or <span class="terminal" title="%x7b">"{"</span>:</span>
 <span class="rule">safe-byte</span> <span class="equals">=</span> <span class="terminal">%x00-09</span> <span class="operator">/</span> <span class="terminal">%x0b-0c</span> <span class="operator">/</span> <span class="terminal">%x0e-19</span> <span class="operator">/</span> <span class="terminal">%x21-7a</span> <span class="operator">/</span> <span class="terminal">%x7c-ff</span>
 
-<span class="comment">; <span class="variable">n</span> below is the number specified inside the "{", "}" pair</span>
-<span class="rule">escape-sequence</span> <span class="equals">=</span> <span class="terminal">"{"</span> <span class="rule">number</span> <span class="terminal">"}"</span> <span class="operator"><span class="variable">n</span>(</span><span class="terminal">%x00-FF</span><span class="operator">)</span>
+<span class="comment">; <span class="variable">n</span> below is the number specified inside the "{", "}" pair, signifying</span>
+<span class="comment">; that the "}" is followed by as many binary octets as specified.</span>
+<span class="rule">escape-sequence</span> <span class="equals">=</span> <span class="terminal">"{"</span> <span class="rule">number</span> <span class="terminal">"}"</span> <span class="operator"><span class="variable">n</span>(</span><span class="terminal" title="%x00-ff">OCTET</span><span class="operator">)</span>
 
 <span class="rule">number</span> <span class="equals">=</span> <span class="operator">1*(</span><span class="terminal" title='"0"-"9" or %x30-39'>DIGIT</span><span class="operator">)</span>
 </pre>
