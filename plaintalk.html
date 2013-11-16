@@ -7,6 +7,7 @@
 <link href='https://fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
 <link href='plaintalk.css' rel='stylesheet' type='text/css'>
+<script defer src='plaintalk.js'></script>
 
 </head>
 <body>
@@ -19,10 +20,9 @@ PlainTalk
 
 <div class="content">
 <p>
-PlainTalk is a <span class="has-definition" title="A protocol that splits
-a stream into discrete messages, each message composed of any number of fields.">
-message and field framing protocol</span> that is human readable and writable and
-efficiently processable by computers. PlainTalk was designed by
+PlainTalk is a <span title="A protocol that splits a stream into discrete messages, each
+message composed of any number of fields.">message and field framing protocol</span> that
+is human readable and writable and efficiently processable by computers. PlainTalk was designed by
 <a href="https://plus.google.com/+RolfWRasmussen">Rolf W. Rasmussen</a> for use in real
 time graphics systems for broadcast TV.
 </p>
@@ -65,7 +65,9 @@ Basically, that's it; newline to separate messages, space to separate fields and
 escaping mechanism. But let us go through all the details.
 </p>
 
+<div class="draft">
 <h1 name="english">Definition in English</h1>
+</div>
 
 <h1 name="abnf">Definition in Augmented Backus Naur Form</h1>
 
@@ -100,6 +102,7 @@ which requires interpretation of an integer represented in ASCII.
 </pre>
 
 
+<div class="draft">
 <h1>Definition as state diagram</h1>
 
 <svg width="800" height="300">
@@ -125,6 +128,7 @@ which requires interpretation of an integer represented in ASCII.
 <circle class="state" cx="480" cy="250" r="20"/>
 <circle class="state" cx="320" cy="250" r="20"/>
 </svg>
+</div>
 
 
 </div>
