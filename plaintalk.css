@@ -63,8 +63,11 @@ soft bright green: #C0D890;
 */
 
 .has-definition {
-	color: #A8C078;
-	text-decoration: underline;
+	display: inline-block;
+	color: #6B874D;
+	border-bottom: 1px dashed #6B874D;
+	overflow: visible;
+	height: 21px;
 }
 
 .content {
