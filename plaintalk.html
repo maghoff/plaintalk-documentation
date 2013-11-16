@@ -29,8 +29,9 @@ PlainTalk
 PlainTalk is a <span class="has-definition" title="In other words: a protocol that splits
 a stream into discrete messages, each message composed of any number of fields.">
 message and field framing protocol</span> that is human readable and writable while still
-efficiently processable by computers. PlainTalk was designed by <a href="...">Rolf Wilhelm
-Rasmussen</a> for use in real time graphics systems for broadcast TV.
+efficiently processable by computers. PlainTalk was designed by
+<a href="https://plus.google.com/+RolfWRasmussen">Rolf W. Rasmussen</a> for use in real
+time graphics systems for broadcast TV.
 </p>
 
 <p>
@@ -66,12 +67,46 @@ and <code class="plaintalk">ignoranc<span class="control">{7}</span>e is strengt
 This makes it easy to implement streaming of arbitrary binary data.
 </p>
 
-<h1>That's it?</h1>
+<p>
+Basically, that's it; newline to separate messages, space to separate fields and an
+escaping mechanism. But let us go through all the details.
+</p>
+
+<h1 name="english">Definition in English</h1>
+
+<h1 name="abnf">Definition in Augmented Backus Naur Form</h1>
 
 <p>
-Basically, that's it. Newlines between messages, spaces between fields, plus an
-escaping mechanism. But let us go through all the details as well.
+PlainTalk can be defined in <a href="http://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_Form">Augmented
+Backus Naur Form</a> (<a href="https://www.ietf.org/rfc/rfc2234.txt">RFC2234</a>),
+with the exception of the <span class="rule">&lt;escape-sequence&gt;</span>,
+which requires interpretation of an integer represented in ASCII.
 </p>
+
+<pre class="abnf">
+<span class="rule">plaintalk</span> <span class="equals">=</span> <span class="operator">*(</span> <span class="rule">message</span> <span class="rule">message-separator</span> <span class="operator">)</span>
+
+<span class="rule">message-separator</span> <span class="equals">=</span> <span class="operator">[</span> <span class="terminal" title="Carriage return, %x0D">CR</span> <span class="operator">]</span> <span class="terminal" title="Line feed, %x0A">LF</span>
+
+<span class="rule">message</span> <span class="equals">=</span> <span class="terminal">""</span>
+<span class="rule">message</span> <span class="equals">=/</span> <span class="rule">field</span> <span class="operator">*(</span> <span class="rule">field-separator</span> <span class="rule">field</span> <span class="operator">)</span>
+
+<span class="rule">field-separator</span> <span class="equals">=</span> <span class="terminal" title="Space, %x20">SP</span>
+
+<span class="rule">field</span> <span class="equals">=</span> <span class="operator">*(</span> <span class="rule">safe-data</span> <span class="operator">/</span> <span class="rule">escape-sequence</span> <span class="operator">)</span>
+<span class="rule">safe-data</span> <span class="equals">=</span> <span class="operator">*(</span> <span class="rule">safe-byte</span> <span class="operator">)</span>
+
+<span class="comment">; A <span class="rule">&lt;safe-byte&gt;</span> is a binary octet that is not <span class="terminal" title="Carriage return, %x0D">CR</span>, <span class="terminal" title="Line feed, %x0A">LF</span>, <span class="terminal" title="Space, %x20">SP</span> or <span class="terminal" title="%x7b">"{"</span>:</span>
+<span class="rule">safe-byte</span> <span class="equals">=</span> <span class="terminal">%x00-09</span> <span class="operator">/</span> <span class="terminal">%x0b-0c</span> <span class="operator">/</span> <span class="terminal">%x0e-19</span> <span class="operator">/</span> <span class="terminal">%x21-7a</span> <span class="operator">/</span> <span class="terminal">%x7c-ff</span>
+
+<span class="comment">; <span class="variable">n</span> below is the number specified inside the "{", "}" pair</span>
+<span class="rule">escape-sequence</span> <span class="equals">=</span> <span class="terminal">"{"</span> <span class="rule">number</span> <span class="terminal">"}"</span> <span class="operator"><span class="variable">n</span>(</span><span class="terminal">%x00-FF</span><span class="operator">)</span>
+
+<span class="rule">number</span> <span class="equals">=</span> <span class="operator">1*(</span><span class="terminal" title='"0"-"9" or %x30-39'>DIGIT</span><span class="operator">)</span>
+</pre>
+
+
+<h1>Definition as state diagram</h1>
 
 <svg width="800" height="300">
 <defs>
@@ -97,10 +132,6 @@ escaping mechanism. But let us go through all the details as well.
 <circle class="state" cx="320" cy="250" r="20"/>
 </svg>
 
-<p>
-Basically, that's it. Newlines between messages, spaces between fields, plus an
-escaping mechanism. But let us go through all the details as well.
-</p>
 
 <div class="draft">
 <h1>Async</h1>

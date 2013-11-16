@@ -78,10 +78,45 @@ p {
 	margin-bottom: 20px;
 }
 
-.plaintalk {
+pre, code {
 	font-family: "Inconsolata", monospace;
 	font-size: 20px;
+}
+
+pre {
 	line-height: 30px;
+}
+
+pre.abnf {
+	margin-left: 1em;
+	margin-right: 1em;
+}
+
+.rule {
+	color: #992D0C;
+}
+
+.abnf .terminal {
+	color: #4c66b2;
+}
+
+.abnf [title] {
+	border-bottom: 1px dashed #A8C078;
+}
+
+.abnf .equals {
+}
+
+.abnf .operator {
+	color: #A8C078;
+}
+
+.abnf .variable {
+	font-style: italic;
+}
+
+.abnf .comment {
+	color: grey;
 }
 
 pre.plaintalk {
