@@ -39,7 +39,7 @@ a, a:visited, a:hover {
 	padding-top: 100px;
 	font-size: 96px;
 	line-height: normal;
-	font-family: "Cherry Swash" sans-serif;
+	font-family: "Cherry Swash", sans-serif;
 	margin-bottom: 40px;
 }
 
@@ -50,7 +50,7 @@ a, a:visited, a:hover {
 	background: #ed4337;
 	color: white;
 
-	font-family: "Cherry Swash" sans-serif;
+	font-family: "Cherry Swash", sans-serif;
 	text-align: right;
 	line-height: 20px;
 }
@@ -78,7 +78,7 @@ soft bright green: #C0D890;
 
 	background: #ed4337;
 	color: white;
-	box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+	box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 
 	font-family: "Fenix";
 	font-size: 20px;
@@ -89,10 +89,16 @@ soft bright green: #C0D890;
 
 	opacity: 0;
 
-	-moz-transition: opacity 100ms, bottom 100ms;
-	-webkit-transition: opacity 100ms, bottom 100ms;
-	-o-transition: opacity 100ms, bottom 100ms;
-	transition: opacity 100ms, bottom 100ms;
+	-moz-transition: all 120ms ease-in-out;
+	-webkit-transition: all 120ms ease-in-out;
+	-o-transition: all 120ms ease-in-out;
+	transition: all 120ms ease-in-out;
+}
+
+.has-popup:hover+.popup {
+	bottom: 35px;
+	opacity: 1;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
 .popup:after {
@@ -110,11 +116,6 @@ soft bright green: #C0D890;
 	border-right: 10px solid transparent;
 
 	border-top: 10px solid #ed4337;
-}
-
-.has-popup:hover+.popup {
-	bottom: 35px;
-	opacity: 1;
 }
 
 p span[title], p span.has-popup {
