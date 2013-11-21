@@ -78,17 +78,18 @@ a, a:visited, a:hover {
 
 .contactlist {
 	position: absolute;
-	bottom: -160px;
+	bottom: 20px;
+	top: 0px;
 	right: 0px;
+	overflow: hidden;
 
 	background: #ed4337;
 	color: white;
 
 	text-align: left;
 	line-height: 40px;
-	padding: 20px;
 
-	opacity: 0;
+	opacity: 0.5;
 
 	-moz-transition: all 200ms ease-in-out;
 	-webkit-transition: all 200ms ease-in-out;
@@ -96,15 +97,22 @@ a, a:visited, a:hover {
 	transition: all 200ms ease-in-out;
 }
 
+:hover>.contactlist {
+	top: -150px;
+	opacity: 1;
+}
+
 .contactlist ul {
 	list-style-type: none;
 	margin: 0;
-	padding: 0;
+	padding: 10px 40px;
 }
 
-:hover>.contactlist {
-	bottom: 30px;
-	opacity: 1;
+.contactlist ul i {
+	width: 20px;
+	display: inline-block;
+	text-align: center;
+	margin-right: 10px;
 }
 
 .contactlist a, .contactlist a:visited {
@@ -118,49 +126,6 @@ soft red: rgb(237, 67, 55);
 soft blue: #4c66b2;
 head in the grass: #A8C078;
 soft bright green: #C0D890;
-*/
-
-/*
-[title] {
-	position:relative;
-}
-
-[title]::after {
-	content: attr(title);
-
-	position:absolute;
-
-	width: 300px;
-	padding: 10px 20px;
-	margin-left: -170px;
-	left:50%;
-
-	bottom: 38px;
-
-	background: #ed4337;
-	color: white;
-	box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-
-	font-family: "Fenix";
-	font-size: 20px;
-	line-height: 26px;
-	white-space: normal;
-
-	text-align: center;
-
-	opacity: 0;
-
-	-moz-transition: all 120ms ease-in-out;
-	-webkit-transition: all 120ms ease-in-out;
-	-o-transition: all 120ms ease-in-out;
-	transition: all 120ms ease-in-out;
-}
-
-[title]:hover::after {
-	bottom: 35px;
-	opacity: 1;
-	box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-}
 */
 
 .popup-wrapper {
