@@ -3,20 +3,38 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 
-<title>PlainTalk</title>
+<title>PlainTalk &ndash; Introduction and Definition</title>
 
 <link href='https://fonts.googleapis.com/css?family=Cherry+Swash' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
 <link href='plaintalk.css' rel='stylesheet' type='text/css'>
-<script defer src='plaintalk.js'></script>
+
+<script defer src='popup.js'></script>
+
+<script src='event-emitter.js'></script>
+
+<script src='plaintalk.js'></script>
+<script src='buffered-plaintalk.js'></script>
+<script src='plaintalk-generator.js'></script>
+<script src='demo-server.js'></script>
+
+<script src='terminal.js'></script>
+
+<script src='interactive.js'></script>
 
 </head>
 <body>
 
 <div class="banner">
 <div class="content">
-PlainTalk
+<a href="index.html">PlainTalk</a>
+</div>
+
+<div class="under-banner">
+<div class="content">
+Introduction and Definition
+</div>
 </div>
 </div>
 
@@ -45,7 +63,7 @@ the layer above it.
 
 <p>
 This is an example of what a network session using a PlainTalk-based protocol might look
-like. Each message is separated by a newline, each field is separated by a space.
+like. Each message is terminated by a newline, fields are separated by a space.
 </p>
 
 <p>
@@ -64,8 +82,14 @@ This makes it easy to implement streaming of arbitrary binary data.
 
 <p>
 Basically, that's it; newline to separate messages, space to separate fields and an
-escaping mechanism. But let us go through all the details.
+escaping mechanism.
 </p>
+
+<pre class="plaintalk interactive">
+<span class="message to-server"><span class="field">0</span> <span class="field">protocol</span> <span class="field">doubletalk</span></span>
+<span class="message from-server"><span class="field">0</span> <span class="field">protocol</span> <span class="field">doubletalk</span></span>
+<noscript><span class="message from-server"><span class="field">*</span> <span class="field"><span class="control">{56}</span>Allow JavaScript to enable interactive test of PlainTalk</span></span>
+</noscript></pre>
 
 <div class="draft">
 <h1 name="english">Definition in English</h1>

@@ -43,6 +43,21 @@ a, a:visited, a:hover {
 	margin-bottom: 40px;
 }
 
+.banner a {
+	color: inherit;
+	text-decoration: inherit;
+}
+
+.under-banner {
+	background: #B01029;
+	color: white;
+	padding-top: 100px;
+	font-family: "Cherry Swash", sans-serif;
+	font-size: 20px;
+	line-height: 20px;
+	padding: 10px 0;
+}
+
 .footer {
 	margin-top: 230px;
 	padding: 10px 0;
@@ -187,6 +202,32 @@ pre.plaintalk {
 	padding: 10px 0;
 
 	background: #272822;
+}
+
+.plaintalk.interactive {
+	max-height: 300px;
+	overflow: auto;
+	position: relative;
+}
+
+.interactive input {
+	border: none;
+	outline: none;
+	background: none;
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+	padding: 0;
+	margin: 0;
+	line-height: 30px;
+	width: 600px;
+}
+
+.interactive input:focus, .interactive input:hover {
+	color: #C9E58F;
+	border: none;
+	outline: none;
+	background: rgba(255, 255, 255, 0.1);
 }
 
 code.plaintalk {
