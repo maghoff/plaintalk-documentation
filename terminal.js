@@ -6,7 +6,7 @@ function Terminal(domNode) {
 
 	var input = document.createElement("input");
 	input.setAttribute("type", "text");
-	input.setAttribute("placeholder", "Try me!");
+	input.setAttribute("placeholder", "1 help");
 
 	input.addEventListener("keyup", function (ev) {
 		if (ev.keyCode === 13) {
