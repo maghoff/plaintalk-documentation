@@ -105,7 +105,7 @@ a, a:visited, a:hover {
 .contactlist ul {
 	list-style-type: none;
 	margin: 0;
-	padding: 10px 40px;
+	padding: 10px 0;
 }
 
 .contactlist ul i {
@@ -119,6 +119,15 @@ a, a:visited, a:hover {
 	color: white;
 	text-decoration: none;
 	cursor: pointer;
+
+	display: inline-block;
+	width: 150px;
+	padding: 0 40px;
+}
+
+.contactlist a:hover {
+	background: white;
+	color: #ed4337;
 }
 
 /*
