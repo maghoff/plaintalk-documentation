@@ -66,8 +66,51 @@ a, a:visited, a:hover {
 	color: white;
 
 	font-family: "Cherry Swash", sans-serif;
-	text-align: right;
 	line-height: 20px;
+	overflow: visible;
+}
+
+.signature {
+	position: relative;
+
+	text-align: right;
+}
+
+.contactlist {
+	position: absolute;
+	bottom: -160px;
+	right: 0px;
+
+	background: #ed4337;
+	color: white;
+
+	text-align: left;
+	line-height: 40px;
+	padding: 20px;
+
+	opacity: 0;
+
+	-moz-transition: all 200ms ease-in-out;
+	-webkit-transition: all 200ms ease-in-out;
+	-o-transition: all 200ms ease-in-out;
+	transition: all 200ms ease-in-out;
+}
+
+.contactlist ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+:hover>.contactlist {
+	bottom: 30px;
+	opacity: 1;
+}
+
+.contactlist a, .contactlist a:visited {
+	color: white;
+	text-decoration: none;
+	cursor: pointer;
 }
 
 /*
@@ -75,6 +118,49 @@ soft red: rgb(237, 67, 55);
 soft blue: #4c66b2;
 head in the grass: #A8C078;
 soft bright green: #C0D890;
+*/
+
+/*
+[title] {
+	position:relative;
+}
+
+[title]::after {
+	content: attr(title);
+
+	position:absolute;
+
+	width: 300px;
+	padding: 10px 20px;
+	margin-left: -170px;
+	left:50%;
+
+	bottom: 38px;
+
+	background: #ed4337;
+	color: white;
+	box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+
+	font-family: "Fenix";
+	font-size: 20px;
+	line-height: 26px;
+	white-space: normal;
+
+	text-align: center;
+
+	opacity: 0;
+
+	-moz-transition: all 120ms ease-in-out;
+	-webkit-transition: all 120ms ease-in-out;
+	-o-transition: all 120ms ease-in-out;
+	transition: all 120ms ease-in-out;
+}
+
+[title]:hover::after {
+	bottom: 35px;
+	opacity: 1;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
 */
 
 .popup-wrapper {
