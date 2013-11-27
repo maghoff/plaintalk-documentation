@@ -36,6 +36,12 @@ function Terminal(domNode) {
 		}.bind(this));
 		this.buffers[direction].on('messageUpdated', function (message) {
 			this.domNode.scrollTop = this.domNode.scrollHeight;
+
+			var bottom = this.domNode.offsetTop + this.domNode.offsetHeight + 5;
+			var viewportBottom = window.scrollY + window.innerHeight;
+			if (bottom > viewportBottom) {
+				window.scrollTo(window.scrollX, bottom - window.innerHeight);
+			}
 		}.bind(this));
 	}.bind(this)(dir));
 }
