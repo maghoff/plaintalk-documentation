@@ -2,6 +2,7 @@ function PlainTalk() {
 	if (!(this instanceof PlainTalk)) return new PlainTalk();
 
 	this.escapeCount = 0;
+	this.escapeCountString = "";
 	this.state = this.messageStart;
 }
 PlainTalk.prototype = Object.create(EventEmitter.prototype);
@@ -41,6 +42,7 @@ PlainTalk.prototype.fieldData = function (data) {
 		this.state = this.messageStart;
 	} else if (control === '{') {
 		this.escapeCount = 0;
+		this.escapeCountString = "";
 		this.state = this.expectEscapeCount;
 	}
 	return data.substr(1);
@@ -72,6 +74,7 @@ PlainTalk.prototype.expectEscapeCount = function (data) {
 PlainTalk.prototype.readingEscapeCount = function (data) {
 	var i = data.search('}');
 	if (i === 0) {
+		this.emit('readEscapeCount', this.escapeCount, this.escapeCountString);
 		this.state = this.readingEscapedData;
 		return data.substr(1);
 	} else if (i === -1) {
@@ -84,6 +87,7 @@ PlainTalk.prototype.readingEscapeCount = function (data) {
 		return data;
 	}
 
+	this.escapeCountString += digits;
 	this.escapeCount *= Math.pow(10, i);
 	this.escapeCount += Number(digits, 10);
 	return data.substr(i);

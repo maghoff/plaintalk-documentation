@@ -2,7 +2,10 @@ function Terminal(domNode) {
 	if (!(this instanceof Terminal)) return new Terminal(domNode);
 
 	this.domNode = domNode;
-	this.buffers = { 'to-server': "", 'from-server': "" };
+	this.buffers = {
+		'to-server': new TerminalOutputBuilder(),
+		'from-server': new TerminalOutputBuilder()
+	};
 
 	var input = document.createElement("input");
 	input.setAttribute("type", "text");
@@ -25,6 +28,16 @@ function Terminal(domNode) {
 
 	this.domNode.appendChild(message);
 	this.domNode.appendChild(document.createTextNode("\n"));
+
+	for (var dir in this.buffers) (function (direction) {
+		this.buffers[direction].on('message', function (message) {
+			message.classList.add(direction);
+			this.appendLine(message);
+		}.bind(this));
+		this.buffers[direction].on('messageUpdated', function (message) {
+			this.domNode.scrollTop = this.domNode.scrollHeight;
+		}.bind(this));
+	}.bind(this)(dir));
 }
 Terminal.prototype = Object.create(EventEmitter.prototype);
 
@@ -34,17 +47,7 @@ Terminal.prototype.appendLine = function (line) {
 };
 
 Terminal.prototype.write = function (direction, data) {
-	this.buffers[direction] += data;
-	var lines = this.buffers[direction].split(/\r?\n/);
-	this.buffers[direction] = lines.pop();
-
-	lines.forEach(function (line) {
-		var message = createMessageElement(direction);
-		message.textContent = line;
-		this.appendLine(message);
-
-		this.domNode.scrollTop = this.domNode.scrollHeight;
-	}.bind(this));
+	this.buffers[direction].write(data);
 };
 
 function createMessageElement(direction) {
