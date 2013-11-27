@@ -1,20 +1,3 @@
-/*
-@font-face {
-	font-family: "Cherry Swash";
-	src: url("Cherry_Swash/CherrySwash-Regular.ttf");
-}
-
-@font-face {
-	font-family: "Fenix";
-	src: url("Fenix/Fenix-Regular.ttf");
-}
-
-@font-face {
-	font-family: "Inconsolata";
-	src: url("Inconsolata/Inconsolata-Regular.ttf");
-}
-*/
-
 body {
 	padding: 0;
 	margin: 0;
@@ -290,23 +273,19 @@ pre.plaintalk {
 	width: calc(100% - 5px);
 }
 
-.interactive input:focus, .interactive input:hover {
+.interactive input {
 	color: #C9E58F;
 	border: none;
 	outline: none;
-	background: rgba(255, 255, 255, 0.1);
+	background: #333;
 }
 
-.interactive input:focus::-webkit-input-placeholder {
-	color: rgba(255, 255, 255, 0.0);
+.to-server input::-webkit-input-placeholder {
+	color: #4E5938;
 }
 
-.interactive input:focus::-moz-placeholder {
-	color: rgba(255, 255, 255, 0.0);
-}
-
-.interactive input:focus::-input-placeholder {
-	color: rgba(255, 255, 255, 0.0);
+.to-server input::-moz-input-placeholder {
+	color: #4E5938;
 }
 
 code.plaintalk {
