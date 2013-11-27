@@ -292,8 +292,12 @@ code.plaintalk {
 	white-space: nowrap;
 }
 
-code.plaintalk:before, code.plaintalk:after {
-	content: '"';
+code.plaintalk:before {
+	content: '“';
+}
+
+code.plaintalk:after {
+	content: '”';
 }
 
 pre .control {
