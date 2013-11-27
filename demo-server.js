@@ -34,10 +34,10 @@ function DemoServer() {
 			}
 			reply([msgId, "ok",
 				"The following commands are available:\n" +
-				"  help                         Get this help\n" +
-				"  list                         List all the terms that have a definition\n" +
-				"  define <term>                Read the definition of the given term\n" +
-				"  define <term> <definition>   Supply a definition for the given term"
+				"  help                        Get this help\n" +
+				"  list                        List all the terms that have a definition\n" +
+				"  define <term>               Read the definition of the given term\n" +
+				"  define <term> <definition>  Supply a definition for the given term"
 			]);
 		},
 		define: function (msgId, args, reply) {
