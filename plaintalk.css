@@ -90,17 +90,14 @@ a, a:visited, a:hover {
 	text-align: left;
 	line-height: 40px;
 
-	opacity: 0.5;
-
-	-moz-transition: all 200ms ease-in-out;
-	-webkit-transition: all 200ms ease-in-out;
-	-o-transition: all 200ms ease-in-out;
-	transition: all 200ms ease-in-out;
+	-moz-transition: all 150ms ease-in-out;
+	-webkit-transition: all 150ms ease-in-out;
+	-o-transition: all 150ms ease-in-out;
+	transition: all 150ms ease-in-out;
 }
 
 :hover>.contactlist {
 	top: -150px;
-	opacity: 1;
 }
 
 .contactlist ul {
