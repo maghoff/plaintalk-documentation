@@ -385,3 +385,22 @@ code.plaintalk {
 	display: none;
 	opacity: 0.5;
 }
+
+
+.plaintalk::-webkit-scrollbar {
+	width: 10px;
+}
+
+.plaintalk::-webkit-scrollbar-track {
+	background: none;
+	border-radius: 0 5px 5px 0;
+}
+
+.plaintalk::-webkit-scrollbar-thumb {
+	background: #444;
+	border-radius: 5px;
+}
+
+.plaintalk::-webkit-scrollbar-thumb:hover {
+	background: #888;
+}
