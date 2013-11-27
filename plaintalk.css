@@ -36,7 +36,7 @@ a, a:visited, a:hover {
 .banner {
 	background: #ed4337;
 	color: white;
-	padding-top: 100px;
+	padding-top: 150px;
 	font-size: 96px;
 	line-height: normal;
 	font-family: "Cherry Swash", sans-serif;
@@ -51,7 +51,6 @@ a, a:visited, a:hover {
 .under-banner {
 	background: #B01029;
 	color: white;
-	padding-top: 100px;
 	font-family: "Cherry Swash", sans-serif;
 	font-size: 20px;
 	line-height: 20px;
