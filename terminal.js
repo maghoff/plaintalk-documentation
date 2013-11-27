@@ -43,7 +43,6 @@ Terminal.prototype = Object.create(EventEmitter.prototype);
 
 Terminal.prototype.appendLine = function (line) {
 	this.domNode.insertBefore(line, this.inputLine);
-	this.domNode.insertBefore(document.createTextNode("\n"), this.inputLine);
 };
 
 Terminal.prototype.write = function (direction, data) {

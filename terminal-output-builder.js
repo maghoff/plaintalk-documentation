@@ -15,6 +15,8 @@ function TerminalOutputBuilder() {
 	}.bind(this));
 
 	this.plaintalk.on('messageEnd', function () {
+		this.buffer.appendChild(document.createTextNode("\n"));
+		this.emit('messageUpdated');
 		this.buffer = null;
 	}.bind(this));
 
