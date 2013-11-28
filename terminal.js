@@ -11,20 +11,20 @@ function Terminal(domNode) {
 	input.setAttribute("type", "text");
 	input.setAttribute("placeholder", "1 help");
 
+	var form = document.createElement("form");
+	form.appendChild(input);
+
 	var encoder = new TextEncoder("utf-8");
-	input.addEventListener("keyup", function (ev) {
-		if (ev.keyCode === 13) {
-			ev.preventDefault();
-			var line = encoder.encode(input.value + "\r\n");
-			this.write('to-server', line);
-			this.emit('data', line);
-			input.value = "";
-			return;
-		}
+	form.addEventListener("submit", function (ev) {
+		ev.preventDefault();
+		var line = encoder.encode(input.value + "\r\n");
+		this.write('to-server', line);
+		this.emit('data', line);
+		input.value = "";
 	}.bind(this), false);
 
 	var message = createMessageElement("to-server");
-	message.appendChild(input);
+	message.appendChild(form);
 	this.inputLine = message;
 
 	this.domNode.appendChild(message);
