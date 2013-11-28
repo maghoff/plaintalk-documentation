@@ -36,8 +36,10 @@ function TerminalOutputBuilder() {
 		this.field = null;
 	}.bind(this));
 
+	var decoder = new TextDecoder("utf-8");
 	this.plaintalk.on('fieldData', function (data) {
-		this.field.appendChild(document.createTextNode(data));
+		var text = decoder.decode(data);
+		this.field.appendChild(document.createTextNode(text));
 		this.emit('messageUpdated');
 	}.bind(this));
 

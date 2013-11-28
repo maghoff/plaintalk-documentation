@@ -20,17 +20,30 @@ PlainTalk.prototype.messageStart = function (data) {
 	return data;
 };
 
-PlainTalk.prototype.fieldData = function (data) {
-	var i = data.search(/[ {\r\n]/);
-	if (i > 0) {
-		this.emit("fieldData", data.substr(0, i));
-		return data.substr(i);
-	} else if (i === -1) {
-		this.emit("fieldData", data);
-		return "";
+function findFirstOf(data, chars) {
+	var nums = [];
+	var i, j;
+
+	for (i = 0; i < chars.length; ++i) nums.push(chars.charCodeAt(i) & 0xFF);
+
+	for (i = 0; i < data.length; ++i) {
+		var char = data[i];
+		for (j = 0; j < nums.length; ++j) {
+			if (char === nums[j]) return i;
+		}
 	}
 
-	var control = data[0];
+	return data.length;
+}
+
+PlainTalk.prototype.fieldData = function (data) {
+	var i = findFirstOf(data, " {\r\n");
+	if (i > 0) {
+		this.emit("fieldData", data.subarray(0, i));
+		return data.subarray(i);
+	}
+
+	var control = String.fromCharCode(data[0]);
 	if (control === ' ') {
 		this.emit("fieldEnd");
 		this.emit("fieldStart");
@@ -45,11 +58,11 @@ PlainTalk.prototype.fieldData = function (data) {
 		this.escapeCountString = "";
 		this.state = this.expectEscapeCount;
 	}
-	return data.substr(1);
+	return data.subarray(1);
 };
 
 PlainTalk.prototype.expectLineFeed = function (data) {
-	if (data[0] !== '\n') {
+	if (data[0] !== '\n'.charCodeAt(0)) {
 		this.emit("error", new Error("CR must be immediately followed by LF"));
 		this.state = this.errorState;
 		return data;
@@ -57,11 +70,11 @@ PlainTalk.prototype.expectLineFeed = function (data) {
 	this.emit("fieldEnd");
 	this.emit("messageEnd");
 	this.state = this.messageStart;
-	return data.substr(1);
+	return data.subarray(1);
 };
 
 PlainTalk.prototype.expectEscapeCount = function (data) {
-	if (!data[0].match(/^[0-9]$/g)) {
+	if (!(data[0] >= '0'.charCodeAt(0) && data[0] <= '9'.charCodeAt(0))) {
 		this.state = this.errorState;
 		this.emit("error", new Error("Escape count specifier must start with a digit"));
 		return data;
@@ -72,16 +85,20 @@ PlainTalk.prototype.expectEscapeCount = function (data) {
 };
 
 PlainTalk.prototype.readingEscapeCount = function (data) {
-	var i = data.search('}');
-	if (i === 0) {
+	if (data[0] == '}'.charCodeAt(0)) {
 		this.emit('readEscapeCount', this.escapeCount, this.escapeCountString);
 		this.state = this.readingEscapedData;
-		return data.substr(1);
-	} else if (i === -1) {
-		i = data.length;
+		return data.subarray(1);
 	}
-	var digits = data.substr(0, i);
-	if (!digits.match(/^[0-9]+$/g)) {
+
+	var i = 0;
+	var digits = "";
+	while (data[i] >= '0'.charCodeAt(0) && data[i] <= '9'.charCodeAt(0)) {
+		digits += String.fromCharCode(data[i]);
+		i++;
+	}
+
+	if (i === 0) {
 		this.state = this.errorState;
 		this.emit("error", new Error("Invalid byte found within {}. Only decimal digits allowed"));
 		return data;
@@ -90,17 +107,17 @@ PlainTalk.prototype.readingEscapeCount = function (data) {
 	this.escapeCountString += digits;
 	this.escapeCount *= Math.pow(10, i);
 	this.escapeCount += Number(digits, 10);
-	return data.substr(i);
+	return data.subarray(i);
 };
 
 PlainTalk.prototype.readingEscapedData = function (data) {
 	var len = Math.min(this.escapeCount, data.length);
-	this.emit("fieldData", data.substr(0, len));
+	this.emit("fieldData", data.subarray(0, len));
 	this.escapeCount -= len;
 	if (this.escapeCount === 0) this.state = this.fieldData;
-	return data.substr(len);
+	return data.subarray(len);
 };
 
 PlainTalk.prototype.errorState = function (data) {
-	return "";
+	return data.subarray(data.length);
 };

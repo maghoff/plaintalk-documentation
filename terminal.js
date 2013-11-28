@@ -11,10 +11,11 @@ function Terminal(domNode) {
 	input.setAttribute("type", "text");
 	input.setAttribute("placeholder", "1 help");
 
+	var encoder = new TextEncoder("utf-8");
 	input.addEventListener("keyup", function (ev) {
 		if (ev.keyCode === 13) {
 			ev.preventDefault();
-			var line = input.value + "\r\n";
+			var line = encoder.encode(input.value + "\r\n");
 			this.write('to-server', line);
 			this.emit('data', line);
 			input.value = "";

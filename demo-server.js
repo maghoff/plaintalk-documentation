@@ -5,11 +5,12 @@ function DemoServer() {
 
 	var buffered = new BufferedPlaintalk(this.protocol);
 
+	var encoder = new TextEncoder("utf-8");
 	function reply0r(generator, message) {
 		generator.startMessage();
 		message.forEach(function (field) {
 			generator.startField();
-			generator.fieldData(field);
+			generator.fieldData(encoder.encode(field));
 			generator.endField();
 		});
 		generator.endMessage();
@@ -68,10 +69,13 @@ function DemoServer() {
 		}
 	};
 
+	var decoder = new TextDecoder("utf-8");
 	buffered.on('error', function (err) { throw err; });
-	buffered.on('message', function (msg) {
-		if (!msg.length) return;
-		if (msg.length === 1 && !msg[0].length) return;
+	buffered.on('message', function (rawmsg) {
+		if (!rawmsg.length) return;
+		if (rawmsg.length === 1 && !rawmsg[0].length) return;
+
+		var msg = rawmsg.map(function (x) { return decoder.decode(x); });
 
 		if (msg.length === 1) {
 			reply([msg[0], "error", "missing_command", "Missing command.\n" +
