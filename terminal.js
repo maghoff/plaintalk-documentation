@@ -30,18 +30,28 @@ function Terminal(domNode) {
 	this.domNode.appendChild(message);
 	this.domNode.appendChild(document.createTextNode("\n"));
 
+	var layoutUpdatePending = false;
+	var updateLayout = function () {
+		this.domNode.scrollTop = this.domNode.scrollHeight;
+
+		var bottom = this.domNode.offsetTop + this.domNode.offsetHeight + 5;
+		var viewportBottom = window.scrollY + window.innerHeight;
+		if (bottom > viewportBottom) {
+			window.scrollTo(window.scrollX, bottom - window.innerHeight);
+		}
+
+		layoutUpdatePending = false;
+	}.bind(this);
+
 	for (var dir in this.buffers) (function (direction) {
 		this.buffers[direction].on('message', function (message) {
 			message.classList.add(direction);
 			this.appendLine(message);
 		}.bind(this));
 		this.buffers[direction].on('messageUpdated', function (message) {
-			this.domNode.scrollTop = this.domNode.scrollHeight;
-
-			var bottom = this.domNode.offsetTop + this.domNode.offsetHeight + 5;
-			var viewportBottom = window.scrollY + window.innerHeight;
-			if (bottom > viewportBottom) {
-				window.scrollTo(window.scrollX, bottom - window.innerHeight);
+			if (!layoutUpdatePending) {
+				layoutUpdatePending = true;
+				setTimeout(updateLayout, 0);
 			}
 		}.bind(this));
 	}.bind(this)(dir));
