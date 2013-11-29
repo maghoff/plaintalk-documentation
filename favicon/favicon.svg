@@ -1,0 +1,7 @@
+<?xml-stylesheet href='https://fonts.googleapis.com/css?family=Cherry+Swash' type='text/css'?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="512" height="512" standalone="no">
+<g transform="scale(32,32)">
+<rect x="0" y="0" width="16" height="16" style="fill:#ed4337" />
+<text x="8" y="14" text-anchor="middle" style="fill:white; font-family:'Cherry Swash'">P</text>
+</g>
+</svg>
