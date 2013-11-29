@@ -65,15 +65,15 @@ the layer above it.
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="160">
 
 	<defs>
-		<linearGradient id="linearGradient1">
+		<linearGradient id="fade-away">
 			<stop style="stop-color:#444;stop-opacity:1" offset="0" />
 			<stop style="stop-color:#444;stop-opacity:0" offset="1" />
 		</linearGradient>
 		<linearGradient
 			x1="0" y1="120"
 			x2="0" y2="160"
-			id="linearGradient2"
-			xlink:href="#linearGradient1"
+			id="fade-down"
+			xlink:href="#fade-away"
 			gradientUnits="userSpaceOnUse"/>
 	</defs>
 
@@ -89,7 +89,7 @@ the layer above it.
 	<rect
 		width="300" height="50"
 		x="250.5" y="125.5"
-		style="fill:none;stroke:url(#linearGradient2)" />
+		style="fill:none;stroke:url(#fade-down)" />
 
 	<text x="230" y="65" text-anchor="end" class="svg-text">Application layer:</text>
 	<text x="230" y="150" text-anchor="end" class="svg-text">Transport layer:</text>
