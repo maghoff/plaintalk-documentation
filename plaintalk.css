@@ -199,6 +199,11 @@ p {
 	margin-bottom: 20px;
 }
 
+.figure {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
 pre, code {
 	font-family: "Inconsolata", monospace;
 	font-size: 20px;
