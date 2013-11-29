@@ -61,6 +61,70 @@ network stack right underneath the application layer and offers a message based 
 the layer above it.
 </p>
 
+<p>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="160">
+
+	<defs>
+		<linearGradient id="linearGradient1">
+			<stop style="stop-color:#444;stop-opacity:1" offset="0" />
+			<stop style="stop-color:#444;stop-opacity:0" offset="1" />
+		</linearGradient>
+		<linearGradient
+			x1="0" y1="120"
+			x2="0" y2="160"
+			id="linearGradient2"
+			xlink:href="#linearGradient1"
+			gradientUnits="userSpaceOnUse"/>
+	</defs>
+
+	<rect
+		width="300" height="60"
+		x="250" y="61"
+		style="fill:#C0D890;stroke:#444;stroke-dasharray:4,4" />
+	<rect
+		width="300" height="120"
+		x="250" y="1"
+		style="fill:none;stroke:#444" />
+
+	<rect
+		width="300" height="50"
+		x="250" y="125"
+		style="fill:none;stroke:url(#linearGradient2)" />
+
+	<text
+		x="229" y="60"
+		alignment-baseline="middle"
+		text-anchor="end"
+		class="svg-text">Application layer:</text>
+	<text
+		x="229" y="145"
+		alignment-baseline="middle"
+		text-anchor="end"
+		class="svg-text">Transport layer:</text>
+
+	<text
+		x="400" y="31"
+		alignment-baseline="middle"
+		text-anchor="middle"
+		style="font-style:italic"
+		class="svg-text">Your application here</text>
+	<text
+		x="400" y="91"
+		alignment-baseline="middle"
+		text-anchor="middle"
+		class="svg-text">PlainTalk sub-layer</text>
+
+	<text
+		x="560" y="60"
+		alignment-baseline="middle"
+		class="svg-text">Message stream interface</text>
+	<text
+		x="560" y="123"
+		alignment-baseline="middle"
+		class="svg-text">Byte stream interface</text>
+</svg>
+</p>
+
 <h1>What does it look like?</h1>
 <pre class="plaintalk">
 <span class="message to-server"><span class="field">0</span> <span class="field">protocol</span> <span class="field">doubletalk</span></span>

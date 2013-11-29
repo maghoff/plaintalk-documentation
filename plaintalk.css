@@ -17,6 +17,12 @@ a, a:visited, a:hover {
 	color: #4c66b2;
 }
 
+.svg-text {
+	font-size: 20px;
+	font-family: "Fenix", sans-serif;
+	fill: #444;
+}
+
 .banner {
 	background: #ed4337;
 	color: white;
