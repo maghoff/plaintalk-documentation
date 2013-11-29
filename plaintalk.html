@@ -118,16 +118,16 @@ like. Each message is terminated by a newline, fields are separated by a space.
 </p>
 
 <p>
-In the second message from the server, <code class="plaintalk field">ignorance is strength</code>
+In the second message from the server, “<code class="plaintalk field">ignorance is strength</code>”
 is one field with embedded space characters. It is
-possible to transmit control characters by using the sequence <code class=
-"plaintalk"><span class="control">{<span class="annotation">n</span>}</span></code>,
+possible to transmit control characters by using the sequence “<code class=
+"plaintalk"><span class="control">{<span class="annotation">n</span>}</span></code>”,
 followed by <span class="annotation">n</span> bytes to be read
 verbatim, without interpretation. An escape sequence can appear anywhere within
-a field, so the byte sequence <code class="plaintalk"><span class=
-"control">{21}</span>ignorance is strength</code> is exactly equivalent to both
-<code class="plaintalk">ignorance<span class="control">{1}</span> is<span class="control">{1}</span> strength</code>
-and <code class="plaintalk">ignoranc<span class="control">{7}</span>e is strength</code>.
+a field, so the byte sequence “<code class="plaintalk"><span class=
+"control">{21}</span>ignorance is strength</code>” is exactly equivalent to both
+“<code class="plaintalk">ignorance<span class="control">{1}</span> is<span class="control">{1}</span> strength</code>”
+and “<code class="plaintalk">ignoranc<span class="control">{7}</span>e is strength</code>”.
 This makes it easy to implement streaming of arbitrary binary data.
 </p>
 

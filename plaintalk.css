@@ -310,14 +310,6 @@ code.plaintalk {
 	white-space: nowrap;
 }
 
-code.plaintalk:before {
-	content: '“';
-}
-
-code.plaintalk:after {
-	content: '”';
-}
-
 pre .control {
 	color: #888;
 }
