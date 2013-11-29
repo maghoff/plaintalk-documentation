@@ -57,11 +57,12 @@ time graphics systems for broadcast TV.
 
 <p>
 When designing a network protocol, PlainTalk is a useful starting point. It fits in the
-network stack right underneath the application layer and offers a message based API to
-the layer above it.
+network stack as a sublayer of the application layer, using the byte stream interface
+of the transport layer below and providing a message stream interface to the rest of
+the application layer above.
 </p>
 
-<p>
+<p class="figure">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="160">
 
 	<defs>
@@ -95,7 +96,7 @@ the layer above it.
 	<text x="230" y="150" text-anchor="end" class="svg-text">Transport layer:</text>
 
 	<text x="400" y="38" text-anchor="middle" style="font-style:italic" class="svg-text">Your application here</text>
-	<text x="400" y="98" text-anchor="middle" class="svg-text">PlainTalk sub-layer</text>
+	<text x="400" y="98" text-anchor="middle" class="svg-text">PlainTalk sublayer</text>
 
 	<text x="560" y="65" class="svg-text">Message stream interface</text>
 	<text x="560" y="129" class="svg-text">Byte stream interface</text>
