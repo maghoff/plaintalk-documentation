@@ -3,6 +3,7 @@ function TerminalOutputBuilder() {
 
 	this.buffer = null;
 	this.field = null;
+	this.ignoredData = null;
 	this.zeroFields = true;
 	this.plaintalk = new PlainTalk();
 
@@ -48,6 +49,21 @@ function TerminalOutputBuilder() {
 		escape.classList.add("control");
 		escape.textContent = "{" + countString + "}";
 		this.field.appendChild(escape);
+		this.emit('messageUpdated');
+	}.bind(this));
+
+	this.plaintalk.on('error', function (err) {
+		this.ignoredData = document.createElement("span");
+		this.ignoredData.classList.add("ignored");
+		if (this.buffer) this.buffer.appendChild(this.ignoredData);
+		else {
+			// Curious. Will this ever happen?
+		}
+	}.bind(this));
+
+	this.plaintalk.on('ignored', function (data) {
+		var text = decoder.decode(data);
+		this.ignoredData.appendChild(document.createTextNode(text));
 		this.emit('messageUpdated');
 	}.bind(this));
 }

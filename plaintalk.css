@@ -355,6 +355,11 @@ pre .control {
 	color: #888;
 }
 
+.ignored {
+	color: #888;
+	text-decoration: line-through;
+}
+
 .plaintalk .annotation {
 	font-family: "Fenix";
 	font-size: 20px;

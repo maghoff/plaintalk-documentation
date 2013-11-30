@@ -76,7 +76,8 @@ PlainTalk.prototype.expectLineFeed = function (data) {
 PlainTalk.prototype.expectEscapeCount = function (data) {
 	if (!(data[0] >= '0'.charCodeAt(0) && data[0] <= '9'.charCodeAt(0))) {
 		this.state = this.errorState;
-		this.emit("error", new Error("Escape count specifier must start with a digit"));
+		this.emit("error", new Error("Escape count specifier must have at least one digit"));
+		this.emit("ignored", new TextEncoder("utf-8").encode("{"));
 		return data;
 	}
 
@@ -101,6 +102,7 @@ PlainTalk.prototype.readingEscapeCount = function (data) {
 	if (i === 0) {
 		this.state = this.errorState;
 		this.emit("error", new Error("Invalid byte found within {}. Only decimal digits allowed"));
+		this.emit("ignored", new TextEncoder("utf-8").encode("{" + this.escapeCountString));
 		return data;
 	}
 
@@ -119,5 +121,6 @@ PlainTalk.prototype.readingEscapedData = function (data) {
 };
 
 PlainTalk.prototype.errorState = function (data) {
+	this.emit("ignored", data);
 	return data.subarray(data.length);
 };

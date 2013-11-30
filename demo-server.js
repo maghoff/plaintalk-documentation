@@ -70,7 +70,10 @@ function DemoServer() {
 	};
 
 	var decoder = new TextDecoder("utf-8");
-	buffered.on('error', function (err) { throw err; });
+	buffered.on('error', function (err) {
+		reply(["*", "error", "protocol_error", "PlainTalk parser reported:\n" + err.toString()]);
+	});
+
 	buffered.on('message', function (rawmsg) {
 		if (!rawmsg.length) return;
 		if (rawmsg.length === 1 && !rawmsg[0].length) return;
