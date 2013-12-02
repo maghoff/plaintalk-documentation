@@ -3,7 +3,7 @@ function Terminal(domNode) {
 
 	this.domNode = domNode;
 
-	var input = document.createElement("input");
+	var input = this.input = document.createElement("input");
 	input.setAttribute("type", "text");
 	input.setAttribute("placeholder", "1 help");
 
@@ -29,6 +29,9 @@ function Terminal(domNode) {
 	var layoutUpdatePending = false;
 	var updateLayout = function () {
 		this.domNode.scrollTop = this.domNode.scrollHeight;
+
+		layoutUpdatePending = false;
+		if (document.activeElement !== this.input) return;
 
 		var bottom = this.domNode.offsetTop + this.domNode.offsetHeight + 5;
 		var viewportBottom = window.scrollY + window.innerHeight;
@@ -71,13 +74,14 @@ Terminal.prototype.resetConnection = function () {
 	var updateLayout = function () {
 		this.domNode.scrollTop = this.domNode.scrollHeight;
 
+		layoutUpdatePending = false;
+		if (document.activeElement !== this.input) return;
+
 		var bottom = this.domNode.offsetTop + this.domNode.offsetHeight + 5;
 		var viewportBottom = window.scrollY + window.innerHeight;
 		if (bottom > viewportBottom) {
 			window.scrollTo(window.scrollX, bottom - window.innerHeight);
 		}
-
-		layoutUpdatePending = false;
 	}.bind(this);
 	this.buffers = {
 		'to-server': new TerminalOutputBuilder(),
