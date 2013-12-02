@@ -2,10 +2,6 @@ function Terminal(domNode) {
 	if (!(this instanceof Terminal)) return new Terminal(domNode);
 
 	this.domNode = domNode;
-	this.buffers = {
-		'to-server': new TerminalOutputBuilder(),
-		'from-server': new TerminalOutputBuilder()
-	};
 
 	var input = document.createElement("input");
 	input.setAttribute("type", "text");
@@ -43,6 +39,10 @@ function Terminal(domNode) {
 		layoutUpdatePending = false;
 	}.bind(this);
 
+	this.buffers = {
+		'to-server': new TerminalOutputBuilder(),
+		'from-server': new TerminalOutputBuilder()
+	};
 	for (var dir in this.buffers) (function (direction) {
 		this.buffers[direction].on('message', function (message) {
 			message.classList.add(direction);
@@ -64,6 +64,47 @@ Terminal.prototype.appendLine = function (line) {
 
 Terminal.prototype.write = function (direction, data) {
 	this.buffers[direction].write(data);
+};
+
+Terminal.prototype.resetConnection = function () {
+	var layoutUpdatePending = false;
+	var updateLayout = function () {
+		this.domNode.scrollTop = this.domNode.scrollHeight;
+
+		var bottom = this.domNode.offsetTop + this.domNode.offsetHeight + 5;
+		var viewportBottom = window.scrollY + window.innerHeight;
+		if (bottom > viewportBottom) {
+			window.scrollTo(window.scrollX, bottom - window.innerHeight);
+		}
+
+		layoutUpdatePending = false;
+	}.bind(this);
+	this.buffers = {
+		'to-server': new TerminalOutputBuilder(),
+		'from-server': new TerminalOutputBuilder()
+	};
+	for (var dir in this.buffers) (function (direction) {
+		this.buffers[direction].on('message', function (message) {
+			message.classList.add(direction);
+			this.appendLine(message);
+		}.bind(this));
+		this.buffers[direction].on('messageUpdated', function (message) {
+			if (!layoutUpdatePending) {
+				layoutUpdatePending = true;
+				setTimeout(updateLayout, 0);
+			}
+		}.bind(this));
+	}.bind(this)(dir));
+
+	var bar = document.createElement("div");
+	bar.classList.add("connection-broken");
+	bar.innerText = "Connection reset";
+	this.appendLine(bar);
+
+	if (!layoutUpdatePending) {
+		layoutUpdatePending = true;
+		setTimeout(updateLayout, 0);
+	}
 };
 
 function createMessageElement(direction) {

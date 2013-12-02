@@ -360,6 +360,13 @@ pre .control {
 	text-decoration: line-through;
 }
 
+.connection-broken {
+	color: #888;
+	border-top: 1px solid #888;
+	border-bottom: 1px solid #888;
+	margin-right: 5px;
+}
+
 .plaintalk .annotation {
 	font-family: "Fenix";
 	font-size: 20px;

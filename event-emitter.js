@@ -8,9 +8,13 @@ EventEmitter.prototype.on = function (event, listener) {
 	this.listeners[event].push(listener);
 };
 
+EventEmitter.prototype.removeAllListeners = function () {
+	this.listeners = {};
+};
+
 EventEmitter.prototype.emit = function (event) {
 	var args = Array.prototype.slice.call(arguments, 1);
-	(this.listeners[event] || []).forEach(function (listener) {
+	((this.listeners || {})[event] || []).forEach(function (listener) {
 		listener.apply(null, args);
 	});
 };

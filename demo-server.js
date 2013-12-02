@@ -41,6 +41,10 @@ function DemoServer() {
 				"  define <term> <definition> Supply a definition for the given term"
 			]);
 		},
+		protocol: function (msgId, args, reply) {
+			// TODO: Handle protocol negotiation
+			reply([msgId, "protocol", "doubletalk"]);
+		},
 		define: function (msgId, args, reply) {
 			if (args.length <= 0 || args.length > 2) {
 				reply([msgId, "error", "wrong_arguments", "Usage: <msgid> define <term> [<definition>]"]);
@@ -72,7 +76,8 @@ function DemoServer() {
 	var decoder = new TextDecoder("utf-8");
 	buffered.on('error', function (err) {
 		reply(["*", "error", "protocol_error", "PlainTalk parser reported:\n" + err.toString()]);
-	});
+		this.emit("close");
+	}.bind(this));
 
 	buffered.on('message', function (rawmsg) {
 		if (!rawmsg.length) return;
@@ -91,7 +96,7 @@ function DemoServer() {
 		var command = msg[1];
 
 		if (!commands.hasOwnProperty(command)) {
-			reply([msgId, 'error', 'not_found', command]);
+			reply([msgId, 'error', 'unknown_command', command]);
 			return;
 		}
 
