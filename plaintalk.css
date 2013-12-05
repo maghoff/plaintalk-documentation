@@ -10,7 +10,17 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
 	font-weight: normal;
-	margin-top: 50px;
+	margin-top: 40px;
+	margin-bottom: 0;
+	line-height: 100%;
+}
+
+.content {
+	min-width: 320px;
+	max-width: 800px;
+	padding: 0 10px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 a, a:visited, a:hover {
@@ -31,11 +41,23 @@ a, a:visited, a:hover {
 	line-height: normal;
 	font-family: "Cherry Swash", sans-serif;
 	margin-bottom: 40px;
+
+	-moz-transition: padding 150ms ease-in-out;
+	-webkit-transition: padding 150ms ease-in-out;
+	-o-transition: padding 150ms ease-in-out;
+	transition: padding 150ms ease-in-out;
 }
 
 .banner a {
 	color: inherit;
 	text-decoration: inherit;
+}
+
+@media only screen and (max-width: 600px) {
+	.banner {
+		padding-top: 50px;
+		font-size: 48px;
+	}
 }
 
 .under-banner {
@@ -188,20 +210,16 @@ p span[title], p span.has-popup {
 	height: 21px;
 }
 
-.content {
-	width: 800px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
 p {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
 
 .figure {
+	text-align: center;
 	margin-top: 30px;
 	margin-bottom: 30px;
+	overflow: auto;
 }
 
 pre, code {
@@ -246,6 +264,8 @@ pre.abnf {
 }
 
 pre.plaintalk {
+	overflow: auto;
+
 	border-radius: 5px;
 
 	margin-left: 1em;
@@ -263,7 +283,6 @@ pre.plaintalk {
 
 .plaintalk.interactive {
 	max-height: 300px;
-	overflow: auto;
 	position: relative;
 }
 
