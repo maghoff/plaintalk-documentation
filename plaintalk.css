@@ -53,13 +53,6 @@ a, a:visited, a:hover {
 	text-decoration: inherit;
 }
 
-@media only screen and (max-width: 600px) {
-	.banner {
-		padding-top: 50px;
-		font-size: 48px;
-	}
-}
-
 .under-banner {
 	background: #B01029;
 	color: white;
@@ -440,4 +433,11 @@ pre .control {
 
 .plaintalk::-webkit-scrollbar-thumb:hover {
 	background: #888;
+}
+
+@media (max-width: 600px) {
+	.banner {
+		padding-top: 50px;
+		font-size: 48px;
+	}
 }
