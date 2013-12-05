@@ -434,10 +434,3 @@ pre .control {
 .plaintalk::-webkit-scrollbar-thumb:hover {
 	background: #888;
 }
-
-@media (max-width: 600px) {
-	.banner {
-		padding-top: 50px;
-		font-size: 48px;
-	}
-}
