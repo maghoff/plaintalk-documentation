@@ -177,6 +177,8 @@ soft bright green: #C0D890;
 	-webkit-transition: all 120ms ease-in-out;
 	-o-transition: all 120ms ease-in-out;
 	transition: all 120ms ease-in-out;
+
+	pointer-events: none;
 }
 
 .has-popup:hover+.popup {
