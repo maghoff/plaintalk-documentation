@@ -14,12 +14,6 @@ function createPopup(text) {
 	return element;
 }
 
-function calculateLeftRelativeToContent(element) {
-	if (!element.offsetParent) return 0;
-	console.log(element.offsetLeft, element);
-	return calculateLeftRelativeToContent(element.offsetParent) + element.offsetLeft;
-}
-
 function installPopup(element) {
 	var title = extractAndRemoveTitle(element);
 	var popup = createPopup(title);
