@@ -26,18 +26,20 @@ function installPopup(element) {
 	wrapper.appendChild(element);
 	wrapper.appendChild(popup);
 
+	return popup;
+}
+
+function applyPopupEventHandlers(element, popup) {
+	var arrow = popup.querySelector(".popup-arrow");
 
 	popup.style.display = "none";
 	popup.classList.add("suppress-popup");
-	var arrow = popup.querySelector(".popup-arrow");
 	var pendingHideEventId = null;
 	element.addEventListener("mouseover", function () {
-		var x = calculateLeftRelativeToContent(popup);
 		popup.style.display = "";
 
 		setTimeout(function () {
 			var boundingRect = popup.getBoundingClientRect();
-			console.log(boundingRect);
 
 			var diff = null;
 			if (boundingRect.left < 20) {
@@ -71,7 +73,8 @@ function installPopup(element) {
 function installPopups() {
 	var elements = document.querySelectorAll("span[title]");
 	for (var i = 0; i < elements.length; ++i) {
-		installPopup(elements[i]);
+		var popup = installPopup(elements[i]);
+		applyPopupEventHandlers(elements[i], popup);
 	}
 }
 
