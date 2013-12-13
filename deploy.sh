@@ -16,4 +16,4 @@ s3cmd sync \
 	--cf-invalidate \
 	--delete-removed \
 	--add-header "Content-Encoding: gzip" \
-	"deploy" "$S3_TARGET"
+	"deploy/" "$S3_TARGET"
