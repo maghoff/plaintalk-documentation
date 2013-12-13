@@ -1,0 +1,9 @@
+{
+  "name": "serve",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "resource-tree": "~0.0.0-13"
+  }
+}
