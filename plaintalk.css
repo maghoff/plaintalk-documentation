@@ -181,7 +181,7 @@ soft bright green: #C0D890;
 	pointer-events: none;
 }
 
-.has-popup:hover+.popup {
+.has-popup:hover+.popup:not(.suppress-popup) {
 	bottom: 35px;
 	opacity: 1;
 	box-shadow: 0 2px 10px rgba(0,0,0,0.5);
