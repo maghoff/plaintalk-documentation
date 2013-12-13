@@ -20,7 +20,8 @@ function installInteractive() {
 }
 
 
-if (document.readyState == "complete" || document.readyState == "loaded") {
+console.log('interactive', document.readyState);
+if (document.readyState == "complete" || document.readyState == "loaded" || document.readyState == "interactive") {
 	installInteractive();
 } else {
 	document.addEventListener("DOMContentLoaded", installInteractive);
