@@ -102,7 +102,7 @@ Terminal.prototype.resetConnection = function () {
 
 	var bar = document.createElement("div");
 	bar.classList.add("connection-broken");
-	bar.innerText = "Connection reset";
+	bar.textContent = "Connection reset\n";
 	this.appendLine(bar);
 
 	if (!layoutUpdatePending) {
