@@ -1,22 +1,26 @@
-function connectTerminalToNewServer(terminal) {
-	var server = new DemoServer();
-	terminal.on('data', function (data) { server.send(data); });
-	server.on('data', function (data) { terminal.write('from-server', data); });
-	server.on('close', function () {
-		server.removeAllListeners();
+function connectTerminalToServer(terminal, server) {
+	var connection = new DemoServerConnection(server);
+
+	terminal.on('data', function (data) { connection.send(data); });
+	connection.on('data', function (data) { terminal.write('from-server', data); });
+	connection.on('close', function () {
+		connection.removeAllListeners();
 		terminal.removeAllListeners();
 		terminal.resetConnection();
-		connectTerminalToNewServer(terminal);
+		connectTerminalToServer(terminal, server);
 	});
 
 	var initialMessage = new TextEncoder("utf-8").encode("0 protocol doubletalk\r\n");
 	terminal.write("to-server", initialMessage);
-	server.send(initialMessage);
+	connection.send(initialMessage);
 }
 
 function installInteractive() {
 	var elements = document.querySelectorAll(".interactive");
-	for (var i = 0; i < elements.length; ++i) connectTerminalToNewServer(new Terminal(elements[i]));
+	for (var i = 0; i < elements.length; ++i) {
+		var server = new DemoServer();
+		connectTerminalToServer(new Terminal(elements[i]), server);
+	}
 }
 
 
