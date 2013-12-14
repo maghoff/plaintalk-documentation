@@ -79,7 +79,6 @@ function installPopups() {
 }
 
 
-console.log('popup', document.readyState);
 if (document.readyState == "complete" || document.readyState == "loaded" || document.readyState == "interactive") {
 	installPopups();
 } else {

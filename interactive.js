@@ -20,7 +20,6 @@ function installInteractive() {
 }
 
 
-console.log('interactive', document.readyState);
 if (document.readyState == "complete" || document.readyState == "loaded" || document.readyState == "interactive") {
 	installInteractive();
 } else {
