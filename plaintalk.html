@@ -10,11 +10,13 @@
 <link href='https://fonts.googleapis.com/css?family=Cherry+Swash|Fenix|Inconsolata' rel='stylesheet' type='text/css'>
 <link href='plaintalk.css' rel='stylesheet' type='text/css'>
 
-<script defer>
-/* Fake the inclusion of encoding-indexes.js to be 540k lighter */
-window["encoding-indexes"] = {};
+<script>
+if (typeof TextEncoder === "undefined" || typeof TextDecoder === "undefined") {
+	/* Fake the inclusion of encoding-indexes.js to be 540k lighter */
+	window["encoding-indexes"] = {};
+	document.write("<scr"+"ipt defer src='encoding.min.js'></scr"+"ipt>");
+}
 </script>
-<script defer src='encoding.min.js'></script>
 
 <script defer async src='popup.js'></script>
 
