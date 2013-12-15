@@ -117,9 +117,10 @@ function DemoServerConnection(server) {
 	};
 
 	var decoder = new TextDecoder("utf-8");
-	buffered.on('error', function (err) {
-		server.achievementAwarded(1);
-		reply(["*", "error", "protocol_error", "PlainTalk parser reported:\n" + err.toString()]);
+	buffered.on('error', function (errId, desc) {
+		if (errId === "escape-invalid") server.achievementAwarded(1);
+		else if (errId === "escape-overflow") server.achievementAwarded(2);
+		reply(["*", "error", "protocol_error", errId, "PlainTalk parser reported:\n" + desc]);
 		this.emit("close");
 	}.bind(this));
 

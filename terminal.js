@@ -117,7 +117,8 @@ Terminal.prototype.setPlaceholder = function (text) {
 
 var achievements = [
 	"Nqqrq n zhygvyvar qrsvavgvba",
-	"Ivbyngrq gur cebgbpby"
+	"Perngrq na vainyvq rfpncr frdhrapr",
+	"Gevttrerq na biresybj va na rfpncr frdhrapr"
 ];
 
 function ROT13(str) {

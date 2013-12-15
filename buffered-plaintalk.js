@@ -28,8 +28,8 @@ function BufferedPlaintalk(plaintalk) {
 		this.fields.push(field);
 	}.bind(this));
 
-	plaintalk.on('error', function (err) {
-		this.emit('error', err);
+	plaintalk.on('error', function (errId, desc) {
+		this.emit('error', errId, desc);
 	}.bind(this));
 }
 BufferedPlaintalk.prototype = Object.create(EventEmitter.prototype);

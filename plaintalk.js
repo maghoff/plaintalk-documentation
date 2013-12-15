@@ -63,7 +63,7 @@ PlainTalk.prototype.fieldData = function (data) {
 
 PlainTalk.prototype.expectLineFeed = function (data) {
 	if (data[0] !== '\n'.charCodeAt(0)) {
-		this.emit("error", new Error("CR must be immediately followed by LF"));
+		this.emit("error", "crlf", "CR must be immediately followed by LF");
 		this.state = this.errorState;
 		return data;
 	}
@@ -76,7 +76,7 @@ PlainTalk.prototype.expectLineFeed = function (data) {
 PlainTalk.prototype.expectEscapeCount = function (data) {
 	if (!(data[0] >= '0'.charCodeAt(0) && data[0] <= '9'.charCodeAt(0))) {
 		this.state = this.errorState;
-		this.emit("error", new Error("Escape count specifier must have at least one digit"));
+		this.emit("error", "escape-invalid", "Escape count specifier must have at least one digit");
 		this.emit("ignored", new TextEncoder("utf-8").encode("{"));
 		return data;
 	}
@@ -93,22 +93,28 @@ PlainTalk.prototype.readingEscapeCount = function (data) {
 	}
 
 	var i = 0;
-	var digits = "";
 	while (data[i] >= '0'.charCodeAt(0) && data[i] <= '9'.charCodeAt(0)) {
-		digits += String.fromCharCode(data[i]);
+		var digit = String.fromCharCode(data[i]);
+		this.escapeCountString += digit;
+		this.escapeCount *= 10;
+		this.escapeCount += Number(digit, 10);
 		i++;
+
+		if (this.escapeCount > 1000) {
+			this.state = this.errorState;
+			this.emit("error", "escape-overflow", "I'm sure you did not want to escape more than 1000 bytes");
+			this.emit("ignored", new TextEncoder("utf-8").encode("{" + this.escapeCountString));
+			return data.subarray(i);
+		}
 	}
 
 	if (i === 0) {
 		this.state = this.errorState;
-		this.emit("error", new Error("Invalid byte found within {}. Only decimal digits allowed"));
+		this.emit("error", "escape-invalid", "Invalid byte found within {}. Only decimal digits allowed");
 		this.emit("ignored", new TextEncoder("utf-8").encode("{" + this.escapeCountString));
 		return data;
 	}
 
-	this.escapeCountString += digits;
-	this.escapeCount *= Math.pow(10, i);
-	this.escapeCount += Number(digits, 10);
 	return data.subarray(i);
 };
 
