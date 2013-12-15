@@ -218,8 +218,11 @@ a field separator, since it is escaped.
 </p>
 <p>
 Only decimal digits are allowed inside the curlies (<code class="plaintalk illegal">{1k}</code>
-is not allowed), and there must be at least one decimal digit (<code class="plaintalk illegal">{}</code>
-is not allowed). Leading zeroes are allowed, and it is allowed to escape zero bytes. It
+is not allowed), and there must be at least one digit (<code class="plaintalk illegal">{}</code>
+is not allowed). Violations of this causes connection termination.
+</p>
+<p>
+Leading zeroes are allowed, and it is allowed to escape zero bytes. It
 is good style to encode zero-length fields as <code>{0}</code>, for the convenience
 of human readers.
 </p>
@@ -227,7 +230,7 @@ of human readers.
 There is no set upper bound on the size of any escape sequence. However, there is no
 reason to have excessively large escape sequences. It is efficient enough to separate
 a huge binary stream into chunks of, say, 1MB, and escape each chunk individually.
-Implementations should take care to avoid problems relating to integer overflows or
+Implementations should take care to avoid problems relating to integer overflows and
 buffer overflows with respect to the escape sequences.
 </p>
 <p>

@@ -66,7 +66,10 @@ function DemoServerConnection(server) {
 			reply([msgId, "protocol", "doubletalk"]);
 		},
 		define: function (msgId, args, reply) {
-			if (args.length <= 0 || args.length > 2) {
+			if (args.length <= 0) {
+				reply([msgId, "error", "invalid_arguments", "Usage: <msgid> define <term> [<def>]"]);
+				return;
+			} else if (args.length > 2) {
 				reply([msgId, "error", "invalid_arguments", "Usage: <msgid> define <term> [<def>]\n"+
 					"  (Maybe you forgot to escape a space in the definition?)"]);
 				return;
