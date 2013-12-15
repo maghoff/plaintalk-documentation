@@ -67,7 +67,7 @@ function DemoServerConnection(server) {
 		},
 		define: function (msgId, args, reply) {
 			if (args.length <= 0 || args.length > 2) {
-				reply([msgId, "error", "invalid_arguments", "Usage: <msgid> define <term> [<definition>]\n"+
+				reply([msgId, "error", "invalid_arguments", "Usage: <msgid> define <term> [<def>]\n"+
 					"  (Maybe you forgot to escape a space in the definition?)"]);
 				return;
 			}

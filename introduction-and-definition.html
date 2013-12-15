@@ -144,11 +144,118 @@ session right here:
 <noscript><span class="message from-server"><span class="field">*</span> <span class="field"><span class="control">{56}</span>Allow JavaScript to enable interactive test of PlainTalk</span></span>
 </noscript></pre></div>
 
-<div class="draft">
-<h1 name="english">Definition in English</h1>
-</div>
+<h1 id="definition">Definition</h1>
 
-<h1 name="abnf">Definition in Augmented Backus Naur Form</h1>
+<p>
+For a more terse and formal definition, see the <a href="#abnf">definition in
+Augmented Backus Naur From</a> below.
+</p>
+
+<p>
+PlainTalk wants to separate an incoming stream of bytes into messages. Messages are
+just an ordered sequence of fields, and each field is simply a bunch of bytes.
+</p>
+
+<p>
+So we start off expecting a message, which expects to start with a field, and a field
+expects to contain some bytes. As we read bytes, we know that they belong to the
+current field we are reading, with the following exceptions:
+</p>
+
+<ol>
+<li>
+<p>
+If we see an ASCII space character (" "), this signifies the end of the current field,
+and the immediate start of a new field. In other words, space is a field separator.
+After reading the space, we continue reading bytes as before, but now we read into
+the new field.
+</p>
+<p>
+The next field may have a payload of zero bytes, so the next incoming byte might be another
+space. Two space characters in a row signifies the end of two consecutive fields. In
+other words, white space does not get special treatment: a byte with the ASCII value
+0x20 is a field separator. This is the only meaning of the space.
+</p>
+</li>
+
+<li>
+<p>
+If we see an ASCII line feed (LF, "\n", 0x0a), this signifies the end of the current
+message, implying the end of the current field and the start of a new message. In other
+words, LF is a message terminator (or separator). After reading the LF, we continue
+reading bytes as before, but now we read into the new message's first field.
+</p>
+</li>
+
+<li>
+<p>
+If we see an ASCII carriage return (CR, "\r", 0x0d), we interpret it as part of a CRLF
+sequence. The next byte in the protocol <em>must</em> be LF. Anything else is illegal.
+<p>
+<p>
+We treat CR this way to be polite to users using the telnet program, which enforces
+network style line endings (which incidentally are the same as Windows style line endings).
+</p>
+</li>
+
+<li>
+<p>
+If we see an ASCII opening curly bracket ("{"), we are looking at an escape sequence.
+The escape sequence consists of opening curly, a decimal number written in ASCII, a
+closing curly ("}") and then a sequence of escaped bytes. The number in the curlies
+specifies how many escaped bytes are following.
+</p>
+<p>
+The bytes following the closing curly must be read verbatim. Inside the escape sequence,
+any byte, special or not, can appear without further escaping. This makes it easy to
+transport a binary stream.
+</p>
+<p>
+As an example, look at “<code class="plaintalk">{5}O HAI</code>”. Here we have an escape sequence with
+five bytes following the closing curly bracket. Assuming UTF-8 (or ASCII) encoding,
+this matches “<code class="plaintalk">O HAI</code>”. The space in this escape sequence does not act as
+a field separator, since it is escaped.
+</p>
+<p>
+Only decimal digits are allowed inside the curlies (<code class="plaintalk illegal">{1k}</code>
+is not allowed), and there must be at least one decimal digit (<code class="plaintalk illegal">{}</code>
+is not allowed). Leading zeroes are allowed, and it is allowed to escape zero bytes. It
+is good style to encode zero-length fields as <code>{0}</code>, for the convenience
+of human readers.
+</p>
+<p>
+There is no set upper bound on the size of any escape sequence. However, there is no
+reason to have excessively large escape sequences. It is efficient enough to separate
+a huge binary stream into chunks of, say, 1MB, and escape each chunk individually.
+Implementations should take care to avoid problems relating to integer overflows or
+buffer overflows with respect to the escape sequences.
+</p>
+<p>
+Avoid generating escape sequences of more than 2GB, since this bumps into the upper
+limit of a 32 bit signed integer. Also be advised that if you are using PlainTalk for
+communicating with an embedded device, it might only allow escape sequences of up to
+for example 32k, so it can fit the number into a 16 bit signed integer.
+</p>
+<p>
+After an escape sequence, we continue reading bytes into the current field. An escape
+sequence may appear directly after another escape sequence.
+</p>
+</li>
+</ol>
+
+<p>
+Messages of zero length are ignored.
+</p>
+
+<p>
+This fully defines the protocol.
+</p>
+
+<h1 id="abnf">Definition in Augmented Backus Naur Form</h1>
+
+<p>
+For a less formal definition, see the <a href="#definition">definition in English</a> above.
+</p>
 
 <p>
 PlainTalk can be precisely defined in <a href="http://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_Form">Augmented

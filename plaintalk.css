@@ -336,6 +336,10 @@ code.plaintalk {
 	white-space: nowrap;
 }
 
+.illegal {
+	text-decoration: line-through;
+}
+
 pre .control {
 	color: #888;
 }
