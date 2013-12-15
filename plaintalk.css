@@ -2,7 +2,7 @@ body {
 	padding: 0;
 	margin: 0;
 
-	font-family: "Fenix";
+	font-family: "Fenix", sans-serif;
 	font-size: 20px;
 	line-height: 26px;
 	color: #444;
@@ -163,7 +163,7 @@ soft bright green: #C0D890;
 	color: white;
 	box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 
-	font-family: "Fenix";
+	font-family: "Fenix", sans-serif;
 	font-size: 20px;
 	line-height: 26px;
 	white-space: normal;
@@ -393,7 +393,7 @@ pre .control {
 }
 
 .plaintalk .annotation {
-	font-family: "Fenix";
+	font-family: "Fenix", sans-serif;
 	font-size: 20px;
 	line-height: 26px;
 	color: #444;
@@ -475,6 +475,46 @@ body:before {
 	float:left;
 	width:0;
 	margin-top:-32767px;
+}
+
+
+.achievements {
+	position: absolute;
+	top: 20px;
+	right: 40px;
+	font-size: 40px;
+	color: #FFFC7F;
+}
+
+.terminal-wrapper {
+	position: relative;
+}
+
+.achievementsMessage {
+	position: absolute;
+	top: 60px;
+	right: 80px;
+	bottom: 40px;
+	left: 80px;
+	font-size: 40px;
+	text-align: center;
+	line-height: 50px;
+	color: #FFFC7F;
+
+	-moz-transition: text-shadow 5s ease-out;
+	-webkit-transition: text-shadow 5s ease-out;
+	-o-transition: text-shadow 5s ease-out;
+	transition: text-shadow 5s ease-out 0, opacity 1s ease-out 4s;
+
+	text-shadow: 0 0 100px #FFFC7F;
+	opacity: 0;
+
+	pointer-events: none;
+}
+
+.achievementsMessage.new {
+	text-shadow: 0 0 0 #FFFC7F;
+	opacity: 1;
 }
 
 

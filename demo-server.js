@@ -15,6 +15,7 @@ function DemoServer() {
 	};
 	this.givenHints = {};
 	this.placeholderProgression = 0;
+	this.achievements = {};
 }
 DemoServer.prototype = Object.create(EventEmitter.prototype);
 
@@ -47,4 +48,10 @@ DemoServer.prototype.placeholderProgressionAtLeast = function (stage) {
 		this.placeholderProgression = stage;
 		this.emit("placeholder", placeholders[stage]);
 	}
+};
+
+DemoServer.prototype.achievementAwarded = function (id) {
+	if (this.achievements.hasOwnProperty(id)) return;
+	this.achievements[id] = true;
+	this.emit("achievement", id);
 };

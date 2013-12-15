@@ -83,6 +83,7 @@ function DemoServerConnection(server) {
 						server.gaveHint(hints.makeMultilineDefinition);
 					}
 				}
+				if (hasNewline) server.achievementAwarded(0);
 
 				server.define(term, args[1]);
 				reply([msgId, "ok"]);

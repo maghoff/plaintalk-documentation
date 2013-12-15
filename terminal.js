@@ -115,6 +115,66 @@ Terminal.prototype.setPlaceholder = function (text) {
 	this.input.setAttribute("placeholder", text);
 };
 
+var achievements = [
+	"Nqqrq n zhygvyvar qrsvavgvba"
+];
+
+function ROT13(str) {
+	var res = "";
+	for (var i = 0; i < str.length; ++i) {
+		var c = str.charCodeAt(i);
+		if (('a'.charCodeAt(0) <= c) && (c < ('a'.charCodeAt(0) + 13))) {
+			res += String.fromCharCode(c + 13);
+		} else if ((('a'.charCodeAt(0) + 13) <= c) && (c <= 'z'.charCodeAt(0))) {
+			res += String.fromCharCode(c - 13);
+		} else if (('A'.charCodeAt(0) <= c) && (c < ('A'.charCodeAt(0) + 13))) {
+			res += String.fromCharCode(c + 13);
+		} else if ((('A'.charCodeAt(0) + 13) <= c) && (c <= 'Z'.charCodeAt(0))) {
+			res += String.fromCharCode(c - 13);
+		} else {
+			res += str[i];
+		}
+	}
+	return res;
+}
+
+Terminal.prototype.acquireAchievementsDOM = function () {
+	if (this.achievements) return;
+
+	this.achievements = document.createElement("div");
+	this.achievements.classList.add("achievements");
+	var stars = "";
+	for (var i = 0; i < achievements.length; ++i) {
+		stars += "☆ ";
+	}
+	this.achievements.textContent = stars;
+
+	this.achievementsMessage = document.createElement("div");
+	this.achievementsMessage.classList.add("achievementsMessage");
+	this.achievementsMessage.classList.add("highlighted");
+	this.achievementsMessage.style.display = "none";
+
+	this.domNode.parentNode.appendChild(this.achievements);
+	this.domNode.parentNode.appendChild(this.achievementsMessage);
+};
+
+Terminal.prototype.achievementAwarded = function (id) {
+	this.acquireAchievementsDOM();
+
+	var old = this.achievements.textContent;
+	this.achievements.textContent = old.slice(0, id*2) + "★ " + old.slice((id+1)*2);
+
+	this.achievementsMessage.classList.add("new");
+	this.achievementsMessage.style.display = "block";
+	this.achievementsMessage.textContent = "Achievement awarded: " + ROT13(achievements[id]);
+	setTimeout(function () {
+		this.achievementsMessage.classList.remove("new");
+	}.bind(this), 0);
+	setTimeout(function () {
+		this.achievementsMessage.style.display = "none";
+	}.bind(this), 5000);
+};
+
 function createMessageElement(direction) {
 	var span = document.createElement("span");
 	span.classList.add("message");

@@ -23,6 +23,9 @@ function installInteractive() {
 		server.on('placeholder', function (terminal, text) {
 			terminal.setPlaceholder(text);
 		}.bind(this, terminal));
+		server.on('achievement', function (terminal, id) {
+			terminal.achievementAwarded(id);
+		}.bind(this, terminal));
 		connectTerminalToServer(terminal, server);
 	}
 }
