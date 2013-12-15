@@ -18,8 +18,12 @@ function connectTerminalToServer(terminal, server) {
 function installInteractive() {
 	var elements = document.querySelectorAll(".interactive");
 	for (var i = 0; i < elements.length; ++i) {
+		var terminal = new Terminal(elements[i]);
 		var server = new DemoServer();
-		connectTerminalToServer(new Terminal(elements[i]), server);
+		server.on('placeholder', function (terminal, text) {
+			terminal.setPlaceholder(text);
+		}.bind(this, terminal));
+		connectTerminalToServer(terminal, server);
 	}
 }
 

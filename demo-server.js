@@ -1,3 +1,10 @@
+var placeholders = [
+	"1 help",
+	"2 list",
+	"3 define ignorance",
+	""
+];
+
 function DemoServer() {
 	if (!(this instanceof DemoServer)) return new DemoServer();
 
@@ -6,7 +13,10 @@ function DemoServer() {
 		freedom: "freedom is slavery",
 		ignorance: "ignorance is strength"
 	};
+	this.givenHints = {};
+	this.placeholderProgression = 0;
 }
+DemoServer.prototype = Object.create(EventEmitter.prototype);
 
 DemoServer.prototype.define = function (term, definition) {
 	this.definitions[term] = definition;
@@ -22,4 +32,19 @@ DemoServer.prototype.getDefinition = function (term) {
 
 DemoServer.prototype.getAllDefinedTerms = function () {
 	return Object.keys(this.definitions);
+};
+
+DemoServer.prototype.hasGivenHint = function (hint) {
+	return this.givenHints.hasOwnProperty(hint);
+};
+
+DemoServer.prototype.gaveHint = function (hint) {
+	this.givenHints[hint] = true;
+};
+
+DemoServer.prototype.placeholderProgressionAtLeast = function (stage) {
+	if (stage > this.placeholderProgression) {
+		this.placeholderProgression = stage;
+		this.emit("placeholder", placeholders[stage]);
+	}
 };

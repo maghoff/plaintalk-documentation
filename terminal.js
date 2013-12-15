@@ -111,6 +111,10 @@ Terminal.prototype.resetConnection = function () {
 	}
 };
 
+Terminal.prototype.setPlaceholder = function (text) {
+	this.input.setAttribute("placeholder", text);
+};
+
 function createMessageElement(direction) {
 	var span = document.createElement("span");
 	span.classList.add("message");
