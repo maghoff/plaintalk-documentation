@@ -116,7 +116,8 @@ Terminal.prototype.setPlaceholder = function (text) {
 };
 
 var achievements = [
-	"Nqqrq n zhygvyvar qrsvavgvba"
+	"Nqqrq n zhygvyvar qrsvavgvba",
+	"Ivbyngrq gur cebgbpby"
 ];
 
 function ROT13(str) {

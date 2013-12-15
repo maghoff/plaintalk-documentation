@@ -115,6 +115,7 @@ function DemoServerConnection(server) {
 
 	var decoder = new TextDecoder("utf-8");
 	buffered.on('error', function (err) {
+		server.achievementAwarded(1);
 		reply(["*", "error", "protocol_error", "PlainTalk parser reported:\n" + err.toString()]);
 		this.emit("close");
 	}.bind(this));
