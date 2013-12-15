@@ -167,7 +167,8 @@ Terminal.prototype.achievementAwarded = function (id) {
 	var star = this.achievements.querySelectorAll(".star")[id];
 	star.textContent = "★";
 	star.setAttribute("title", ROT13(achievements[id]));
-	installPopup(star);
+	var popup = installPopup(star);
+	applyPopupEventHandlers(star, popup);
 
 	this.achievementsMessage.classList.add("new");
 	this.achievementsMessage.style.display = "block";
