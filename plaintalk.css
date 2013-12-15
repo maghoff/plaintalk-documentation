@@ -478,6 +478,10 @@ body:before {
 }
 
 
+.terminal-wrapper {
+	position: relative;
+}
+
 .achievements {
 	position: absolute;
 	top: 20px;
@@ -486,8 +490,7 @@ body:before {
 	color: #FFFC7F;
 }
 
-.terminal-wrapper {
-	position: relative;
+.achievements>.star {
 }
 
 .achievementsMessage {

@@ -144,11 +144,12 @@ Terminal.prototype.acquireAchievementsDOM = function () {
 
 	this.achievements = document.createElement("div");
 	this.achievements.classList.add("achievements");
-	var stars = "";
 	for (var i = 0; i < achievements.length; ++i) {
-		stars += "☆ ";
+		var star = document.createElement("span");
+		star.classList.add("star");
+		star.textContent = "☆";
+		this.achievements.appendChild(star);
 	}
-	this.achievements.textContent = stars;
 
 	this.achievementsMessage = document.createElement("div");
 	this.achievementsMessage.classList.add("achievementsMessage");
@@ -162,8 +163,10 @@ Terminal.prototype.acquireAchievementsDOM = function () {
 Terminal.prototype.achievementAwarded = function (id) {
 	this.acquireAchievementsDOM();
 
-	var old = this.achievements.textContent;
-	this.achievements.textContent = old.slice(0, id*2) + "★ " + old.slice((id+1)*2);
+	var star = this.achievements.querySelectorAll(".star")[id];
+	star.textContent = "★";
+	star.setAttribute("title", ROT13(achievements[id]));
+	installPopup(star);
 
 	this.achievementsMessage.classList.add("new");
 	this.achievementsMessage.style.display = "block";
