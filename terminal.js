@@ -33,7 +33,8 @@ function Terminal(domNode) {
 		layoutUpdatePending = false;
 		if (document.activeElement !== this.input) return;
 
-		var bottom = this.domNode.offsetTop + this.domNode.offsetHeight + 5;
+		var rect = this.domNode.getBoundingClientRect();
+		var bottom = window.scrollY + rect.bottom + 5;
 		var viewportBottom = window.scrollY + window.innerHeight;
 		if (bottom > viewportBottom) {
 			window.scrollTo(window.scrollX, bottom - window.innerHeight);
