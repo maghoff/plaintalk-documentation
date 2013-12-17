@@ -8,7 +8,7 @@ mkdir deploy
 for x in *.js *.html *.css *.ico font/*
 do
 	mkdir -p "$(dirname "deploy/$x")"
-	gzip --best --no-name --stdout "$x" > "deploy/$x"
+	gzip --best --no-name < "$x" > "deploy/$x"
 done
 
 s3cmd sync \
