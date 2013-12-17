@@ -13,6 +13,7 @@ done
 
 s3cmd sync \
 	--guess-mime-type \
+	--no-mime-magic \
 	--cf-invalidate \
 	--delete-removed \
 	--add-header "Content-Encoding: gzip" \
