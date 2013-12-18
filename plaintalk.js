@@ -56,7 +56,7 @@ PlainTalk.prototype.fieldData = function (data) {
 	} else if (control === '{') {
 		this.escapeCount = 0;
 		this.escapeCountString = "";
-		this.state = this.expectEscapeCount;
+		this.state = this.readingEscapeCount;
 	}
 	return data.subarray(1);
 };
@@ -73,20 +73,8 @@ PlainTalk.prototype.expectLineFeed = function (data) {
 	return data.subarray(1);
 };
 
-PlainTalk.prototype.expectEscapeCount = function (data) {
-	if (!(data[0] >= '0'.charCodeAt(0) && data[0] <= '9'.charCodeAt(0))) {
-		this.state = this.errorState;
-		this.emit("error", "escape-invalid", "Escape count specifier must have at least one digit");
-		this.emit("ignored", new TextEncoder("utf-8").encode("{"));
-		return data;
-	}
-
-	this.state = this.readingEscapeCount;
-	return data;
-};
-
 PlainTalk.prototype.readingEscapeCount = function (data) {
-	if (data[0] == '}'.charCodeAt(0)) {
+	if (data[0] === '}'.charCodeAt(0)) {
 		this.emit('readEscapeCount', this.escapeCount, this.escapeCountString);
 		this.state = this.readingEscapedData;
 		return data.subarray(1);

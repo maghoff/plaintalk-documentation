@@ -55,15 +55,16 @@ Introduction and Definition
 PlainTalk is a <span title="A protocol that splits a stream into discrete messages, each
 message composed of any number of fields.">message and field framing protocol</span> that
 is human readable and writable and efficiently processable by computers. PlainTalk was designed by
-<a href="https://plus.google.com/+RolfWRasmussen">Rolf W. Rasmussen</a> for use in real
+<a href="https://plus.google.com/+RolfWRasmussen">Rolf W. Rasmussen</a> as a
+simplification and generalization of the IMAP protocol syntax, for use in real
 time graphics systems for broadcast TV.
 </p>
 
 <p>
 When designing a network protocol, PlainTalk is a useful starting point. It fits in the
-network stack as a sublayer of the application layer, using the byte stream interface
-of the transport layer below and providing a message stream interface to the rest of
-the application layer above.
+TCP/IP stack as a sublayer of the application layer, using the byte stream interface of
+TCP below and providing a message stream interface to the rest of the application layer
+above.
 </p>
 
 <p class="figure">
@@ -97,7 +98,7 @@ the application layer above.
 		style="fill:none;stroke:url(#fade-down)" />
 
 	<text x="200" y="65" text-anchor="end" class="svg-text">Application layer:</text>
-	<text x="200" y="150" text-anchor="end" class="svg-text">Transport layer:</text>
+	<text x="200" y="150" text-anchor="end" class="svg-text">TCP:</text>
 
 	<text x="370" y="38" text-anchor="middle" style="font-style:italic" class="svg-text">Your application here</text>
 	<text x="370" y="98" text-anchor="middle" class="svg-text">PlainTalk sublayer</text>
@@ -190,7 +191,8 @@ reading bytes as before, but now we read into the new message's first field.
 <li>
 <p>
 If we see an ASCII carriage return (CR, "\r", 0x0d), we interpret it as part of a CRLF
-sequence. The next byte in the protocol <em>must</em> be LF. Anything else is illegal.
+sequence. The next byte in the protocol <em>must</em> be LF, which is handled as specified
+above. Anything else will cause the receiving end to terminate the connection.
 <p>
 <p>
 We treat CR this way to be polite to users using the telnet program, which enforces
@@ -211,27 +213,33 @@ any byte, special or not, can appear without further escaping. This makes it eas
 transport a binary stream.
 </p>
 <p>
-As an example, look at “<code class="plaintalk">{5}O HAI</code>”. Here we have an escape sequence with
-five bytes following the closing curly bracket. Assuming UTF-8 (or ASCII) encoding,
-this matches “<code class="plaintalk">O HAI</code>”. The space in this escape sequence does not act as
-a field separator, since it is escaped.
+As an example, consider the ASCII sequence “<code class="plaintalk">{5}O HAI</code>”.
+Here we have an escape sequence with five bytes following the closing curly bracket.
+This matches “<code class="plaintalk">O HAI</code>”. The space in this escape sequence
+does not act as a field separator, since it is escaped.
 </p>
 <p>
-Only decimal digits are allowed inside the curlies (<code class="plaintalk illegal">{1k}</code>
-is not allowed), and there must be at least one digit (<code class="plaintalk illegal">{}</code>
+Only decimal digits are allowed inside the curlies (“<code class="plaintalk illegal">{1k}</code>”
 is not allowed). Violations of this causes connection termination.
 </p>
 <p>
 Leading zeroes are allowed, and it is allowed to escape zero bytes. It
-is good style to encode zero-length fields as <code>{0}</code>, for the convenience
+is good style to encode zero-length fields as “<code>{0}</code>”, for the convenience
 of human readers.
 </p>
 <p>
+For simplicity of implementation, it is allowed to omit the number entirely. (“<code>{}</code>” is allowed)
+This means the same thing as “<code>{0}</code>”. To ease interpretation for humans,
+it is preferable to encode zero-length escape sequences as “<code>{0}</code>”.
+</p>
+<p>
 There is no set upper bound on the size of any escape sequence. However, there is no
-reason to have excessively large escape sequences. It is efficient enough to separate
-a huge binary stream into chunks of, say, 1MB, and escape each chunk individually.
+reason to have excessively large escape sequences either. It is efficient enough to separate
+a huge binary stream into chunks of, say, 1 MB, and escape each chunk individually.
 Implementations should take care to avoid problems relating to integer overflows and
-buffer overflows with respect to the escape sequences.
+buffer overflows with respect to the escape sequences. It is reasonable to terminate
+the connection on receiving escape sequences that are larger than the receiver is
+prepared to handle.
 </p>
 <p>
 Avoid generating escape sequences of more than 2GB, since this bumps into the upper
@@ -247,7 +255,17 @@ sequence may appear directly after another escape sequence.
 </ol>
 
 <p>
-Messages of zero length are ignored.
+When terminating the connection due to error conditions (such as CR without subsequent
+LF, or problems in the escape sequences), it can be a good idea to issue an error
+message to the sender. Whether or not this is advisable or even possible is dependent
+on the domain specific protocol in use on the layer above PlainTalk.
+</p>
+
+<p>
+If the end of the current message is reached before any bytes have been read into the
+first field of the message, the message is ignored. This allows a user to type in
+multiple consecutive line breaks without them being interpreted as messages containing
+a single empty field.
 </p>
 
 <p>
@@ -272,7 +290,7 @@ which requires interpretation of an integer represented in ASCII.
 
 <span class="rule">message-terminator</span> <span class="equals">=</span> <span class="terminal" title="Network (or Windows) line ending: Carriage return, line feed-pair, %x0d.0a">CRLF</span> <span class="operator">/</span> <span class="terminal" title="Unix line ending: Line feed, %x0a">LF</span>
 
-<span class="rule">message</span> <span class="equals">=</span> <span class="terminal">""</span>
+<span class="rule">message</span> <span class="equals">=</span> <span class="terminal">""</span> <span class="comment">; Messages matching this production are to be ignored</span>
 <span class="rule">message</span> <span class="equals">=/</span> <span class="rule">field</span> <span class="operator">*(</span> <span class="rule">field-separator</span> <span class="rule">field</span> <span class="operator">)</span>
 
 <span class="rule">field-separator</span> <span class="equals">=</span> <span class="terminal" title="Space, %x20">SP</span>
@@ -287,7 +305,7 @@ which requires interpretation of an integer represented in ASCII.
 <span class="comment">; that the "}" is followed by as many binary octets as specified.</span>
 <span class="rule">escape-sequence</span> <span class="equals">=</span> <span class="terminal">"{"</span> <span class="rule">number</span> <span class="terminal">"}"</span> <span class="operator"><span class="variable">n</span></span><span class="terminal" title="%x00-ff">OCTET</span>
 
-<span class="rule">number</span> <span class="equals">=</span> <span class="operator">1*</span><span class="terminal" title='"0"-"9" or %x30-39'>DIGIT</span>
+<span class="rule">number</span> <span class="equals">=</span> <span class="operator">*</span><span class="terminal" title='"0"-"9" or %x30-39'>DIGIT</span>
 </pre>
 
 
