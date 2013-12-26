@@ -1,7 +1,11 @@
 function connectTerminalToServer(terminal, server) {
 	var connection = new DemoServerConnection(server);
 
-	terminal.on('data', function (data) { connection.send(data); });
+	terminal.on('data', function (data) {
+		connection.send(data);
+		if (typeof ga !== 'undefined') ga('send', 'event', 'terminal-1', 'sent message');
+	});
+
 	connection.on('data', function (data) { terminal.write('from-server', data); });
 	connection.on('close', function () {
 		connection.removeAllListeners();
@@ -25,6 +29,7 @@ function installInteractive() {
 		}.bind(this, terminal));
 		server.on('achievement', function (terminal, id) {
 			terminal.achievementAwarded(id);
+			if (typeof ga !== 'undefined') ga('send', 'event', 'terminal-1', 'achievement', id);
 		}.bind(this, terminal));
 		connectTerminalToServer(terminal, server);
 	}
