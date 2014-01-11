@@ -12,7 +12,7 @@ var hints = {
 		"Good going! You have successfully read out a definition.\n" +
 		"  How about adding a definition of your own?",
 	makeMultilineDefinition:
-		"You're adding a definition! Awesome! Do you think you\n" +
+		"You have added a definition! Awesome! Do you think you\n" +
 		"  could add a definition that spans multiple lines?",
 	escapedCr:
 		"You have sent a message that ended in an escaped CR. For\n" +
@@ -53,11 +53,14 @@ function DemoServerConnection(server) {
 				return;
 			}
 			reply([msgId, "ok",
+				"Messages have the following structure:\n" +
+				"  <message ID> <command> [<argument> ...]\n" +
 				"The following commands are available:\n" +
 				"  help                       Get this help\n" +
 				"  list                       List all the terms that have a definition\n" +
 				"  define <term>              Read the definition of the given term\n" +
-				"  define <term> <definition> Supply a definition for the given term"
+				"  define <term> <definition> Supply a definition for the given term\n" +
+				"Escape control characters with {}-sequences like this: O{1} HAI."
 			]);
 			server.placeholderProgressionAtLeast(1);
 		},
@@ -71,13 +74,19 @@ function DemoServerConnection(server) {
 				return;
 			} else if (args.length > 2) {
 				reply([msgId, "error", "invalid_arguments", "Usage: <msgid> define <term> [<def>]\n"+
-					"  (Maybe you forgot to escape a space in the definition?)"]);
+					"  Your message had " + (args.length + 2) + " fields in total. Maybe you forgot to escape a\n" +
+					"  space in the definition field? Hover the message you sent with\n" +
+					"  your mouse to see the extents of the fields."]);
 				return;
 			}
 			var term = args[0];
 			if (args.length === 2) {
 				// No point in helping the user if he can do this on his own:
 				server.gaveHint(hints.makeDefinition);
+
+				server.define(term, args[1]);
+				reply([msgId, "ok"]);
+				server.placeholderProgressionAtLeast(3);
 
 				var hasNewline = args[1].indexOf('\n') !== -1;
 				if (!server.hasGivenHint(hints.makeMultilineDefinition)) {
@@ -88,9 +97,6 @@ function DemoServerConnection(server) {
 				}
 				if (hasNewline) server.achievementAwarded(0);
 
-				server.define(term, args[1]);
-				reply([msgId, "ok"]);
-				server.placeholderProgressionAtLeast(3);
 				return;
 			}
 			if (!server.hasDefinition(term)) {
@@ -98,13 +104,12 @@ function DemoServerConnection(server) {
 				return;
 			}
 
+			server.placeholderProgressionAtLeast(3);
+			reply([msgId, "ok", server.getDefinition(term)]);
 			if (!server.hasGivenHint(hints.makeDefinition)) {
 				reply(['*', 'hint', hints.makeDefinition]);
 				server.gaveHint(hints.makeDefinition);
 			}
-
-			reply([msgId, "ok", server.getDefinition(term)]);
-			server.placeholderProgressionAtLeast(3);
 		},
 		list: function (msgId, args, reply) {
 			if (args.length !== 0) {

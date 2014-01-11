@@ -182,6 +182,10 @@ Terminal.prototype.achievementAwarded = function (id) {
 	}.bind(this), 5000);
 };
 
+Terminal.prototype.focus = function () {
+	this.input.focus();
+};
+
 function createMessageElement(direction) {
 	var span = document.createElement("span");
 	span.classList.add("message");

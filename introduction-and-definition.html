@@ -45,12 +45,24 @@ if (typeof TextEncoder === "undefined" || typeof TextDecoder === "undefined") {
 
 <div class="under-banner">
 <div class="content">
-Introduction and Definition
+<a href="introduction-and-definition.html">Introduction and Definition</a>
 </div>
 </div>
 </div>
 
 <div class="content">
+
+<p>
+PlainTalk is a simple network protocol syntax. Maybe you can pick it up just by testing
+the following example protocol interactively? There are already example messages
+to the server (<code>→</code>) and from the server (<code>←</code>) there, for inspiration.
+</p>
+<div class="terminal-wrapper" id="demo"><pre class="plaintalk interactive autofocus">
+<noscript><span class="message from-server"><span class="field">*</span> <span class="field"><span class="control">{56}</span>Allow JavaScript to enable interactive test of PlainTalk</span></span>
+</noscript></pre></div>
+
+
+<h2>So, what is it?</h2>
 <p>
 PlainTalk is a <span title="A protocol that splits a stream into discrete messages, each
 message composed of any number of fields.">message and field framing protocol</span> that
@@ -61,7 +73,8 @@ time graphics systems for broadcast TV.
 </p>
 
 <p>
-When designing a network protocol, PlainTalk is a useful starting point. It fits in the
+When you are designing a network protocol, you can use PlainTalk as a layer on top of TCP
+to get to work with messages and fields instead of a stream of bytes. It fits in the
 TCP/IP stack as a sublayer of the application layer, using the byte stream interface of
 TCP below and providing a message stream interface to the rest of the application layer
 above.
@@ -108,18 +121,18 @@ above.
 </svg>
 </p>
 
-<h1>What does it look like?</h1>
+<p>
+Thw following is an example of what a network session using a PlainTalk-based protocol might look
+like, with messages going both to the server (<code>→</code>) and coming from the server
+(<code>←</code>). Each message is terminated by a newline, and fields are separated by a space.
+</p>
+
 <pre class="plaintalk">
 <span class="message to-server"><span class="field">0</span> <span class="field">protocol</span> <span class="field">doubletalk</span></span>
 <span class="message from-server"><span class="field">0</span> <span class="field">protocol</span> <span class="field">doubletalk</span></span>
 <span class="message to-server"><span class="field">1</span> <span class="field">define</span> <span class="field">ignorance</span></span>
 <span class="message from-server"><span class="field">1</span> <span class="field">ok</span> <span class="field"><span class="control">{21}</span>ignorance is strength</span></span>
 </pre>
-
-<p>
-This is an example of what a network session using a PlainTalk-based protocol might look
-like. Each message is terminated by a newline, fields are separated by a space.
-</p>
 
 <p>
 In the second message from the server, “<code class="plaintalk field">ignorance is strength</code>”
@@ -137,13 +150,11 @@ This makes it easy to implement streaming of arbitrary binary data.
 
 <p>
 Basically, that's it; newline to separate messages, space to separate fields and an
-escaping mechanism. If you would like to try, you can do so in this simulated telnet
-session right here:
+escaping mechanism. If you would like to test the protocol interactively, use the
+<a href="#demo" class="link-to-terminal">simulated telnet session above</a>. Otherwise,
+you can go on to read the <a href="#definition">definition in English</a> or jump
+directly to the <a href="#abnf">definition in Augmented Backus Naur Form (ABNF)</a>.
 </p>
-
-<div class="terminal-wrapper"><pre class="plaintalk interactive">
-<noscript><span class="message from-server"><span class="field">*</span> <span class="field"><span class="control">{56}</span>Allow JavaScript to enable interactive test of PlainTalk</span></span>
-</noscript></pre></div>
 
 <h1 id="definition">Definition</h1>
 
@@ -159,8 +170,8 @@ just an ordered sequence of fields, and each field is simply a bunch of bytes.
 
 <p>
 So we start off expecting a message, which expects to start with a field, and a field
-expects to contain some bytes. As we read bytes, we know that they belong to the
-current field we are reading, with the following exceptions:
+expects to contain some number (possibly zero) of bytes. As we read bytes, we know
+that they belong to the current field we are reading, with the following exceptions:
 </p>
 
 <ol>
@@ -223,12 +234,14 @@ Only decimal digits are allowed inside the curlies (“<code class="plaintalk il
 is not allowed). Violations of this causes connection termination.
 </p>
 <p>
-Leading zeroes are allowed, and it is allowed to escape zero bytes. It
-is good style to encode zero-length fields as “<code>{0}</code>”, for the convenience
-of human readers.
+Leading zeroes are allowed, so “<code>{005}O HAI</code>” is equivalent to “<code>{5}O HAI</code>”.
 </p>
 <p>
-For simplicity of implementation, it is allowed to omit the number entirely. (“<code>{}</code>” is allowed)
+Zero length escape sequences are allowed. It is good style to encode zero-length fields
+as “<code>{0}</code>”, for the convenience of human readers.
+</p>
+<p>
+For simplicity of implementation, it is permitted to omit the number entirely. (“<code>{}</code>” is OK)
 This means the same thing as “<code>{0}</code>”. To ease interpretation for humans,
 it is preferable to encode zero-length escape sequences as “<code>{0}</code>”.
 </p>
