@@ -54,7 +54,7 @@ function DemoServerConnection(server) {
 			}
 			reply([msgId, "ok",
 				"Messages have the following structure:\n" +
-				"  <message ID> <command> [<argument> ...]\n" +
+				"  <message-id> <command> [<argument> ...]\n" +
 				"The following commands are available:\n" +
 				"  help                       Get this help\n" +
 				"  list                       List all the terms that have a definition\n" +
