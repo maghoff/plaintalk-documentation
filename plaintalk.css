@@ -6,6 +6,9 @@ body {
 	font-size: 20px;
 	line-height: 26px;
 	color: #444;
+
+	/* Work around grubby font rendering in OS X */
+	-webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, h5, h6 {
