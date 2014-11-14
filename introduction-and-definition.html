@@ -263,11 +263,11 @@ reason to have excessively large escape sequences either. It is efficient enough
 a huge binary stream into chunks of, say, 1 MB, and escape each chunk individually.
 Implementations should take care to avoid problems relating to integer overflows and
 buffer overflows with respect to the escape sequences. It is reasonable to terminate
-the connection on receiving escape sequences that are larger than the receiver is
+the connection on receiving escape sequences that are larger than what the receiver is
 prepared to handle.
 </p>
 <p>
-Avoid generating escape sequences of more than 2GB, since this bumps into the upper
+Avoid generating escape sequences of 2GB or more, since this bumps into the upper
 limit of a 32 bit signed integer. Also be advised that if you are using PlainTalk for
 communicating with an embedded device, it might only allow escape sequences of up to
 for example 32k, so it can fit the number into a 16 bit signed integer.
