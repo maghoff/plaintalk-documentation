@@ -5,7 +5,7 @@ function Terminal(domNode) {
 
 	var input = this.input = document.createElement("input");
 	input.setAttribute("type", "text");
-	input.setAttribute("placeholder", "1 help");
+	input.setAttribute("placeholder", "Try entering: 1 help");
 
 	var form = document.createElement("form");
 	form.appendChild(input);
