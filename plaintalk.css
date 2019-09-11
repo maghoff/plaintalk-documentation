@@ -90,53 +90,15 @@ a, a:visited, a:hover {
 	padding-right: 10px;
 }
 
-.contactlist {
-	position: absolute;
-	bottom: 20px;
-	top: 0px;
-	right: 0px;
-	overflow: hidden;
-
-	background: #ed4337;
-	color: white;
-
-	text-align: left;
-	line-height: 40px;
-
-	-moz-transition: all 150ms ease-in-out;
-	-webkit-transition: all 150ms ease-in-out;
-	-o-transition: all 150ms ease-in-out;
-	transition: all 150ms ease-in-out;
-}
-
-:hover>.contactlist {
-	top: -150px;
-}
-
-.contactlist ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 10px 0;
-}
-
-.contactlist ul i {
-	width: 20px;
-	display: inline-block;
-	text-align: center;
-	margin-right: 10px;
-}
-
-.contactlist a, .contactlist a:visited {
+.signature a, .signature a:visited {
 	color: white;
 	text-decoration: none;
 	cursor: pointer;
 
-	display: inline-block;
-	width: 150px;
-	padding: 0 40px;
+	padding: 0 10px;
 }
 
-.contactlist a:hover {
+.signature a:hover {
 	background: white;
 	color: #ed4337;
 }
