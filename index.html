@@ -22,22 +22,32 @@
 </div>
 
 <div class="content">
-<ul>
-<li><a href="introduction-and-definition.html">Introduction and Definition</a></li>
-<div class="draft">
-<li><a href="protocol-design-recommendations.html">Protocol design recommendations</a></li>
-<li><a href="#">Implementation concerns</a></li>
-<li><a href="design-concerns.html">Designing PlainTalk-based protocols</a></li>
-</div>
-</ul>
-</div>
 
-</div></div><div id="sticky-footer-footer">
+<p>
+PlainTalk is a human friendly binary network protocol syntax that implements message and field framing.
+Read the full <a href="introduction-and-definition.html">introduction and definition</a> for all the
+details. You can use it to define your own application level protocols, but for demonstration, an
+imagined protocol might look like this:
+</p>
+
+<pre class="plaintalk">
+<span class="message to-server"><span class="field">0</span> <span class="field">protocol</span> <span class="field">doubletalk</span></span>
+<span class="message from-server"><span class="field">0</span> <span class="field">protocol</span> <span class="field">doubletalk</span></span>
+<span class="message to-server"><span class="field">1</span> <span class="field">define</span> <span class="field">ignorance</span></span>
+<span class="message from-server"><span class="field">1</span> <span class="field">ok</span> <span class="field"><span class="control">{21}</span>ignorance is strength</span></span>
+</pre>
+
+<p>
+When you have a grasp of the basic syntax, continue on to the
+<a href="protocol-design-recommendations.html">protocol design recommendations</a>.
+</p>
+
+</div></div></div><div id="sticky-footer-footer">
 
 <div class="footer">
 <div class="content">
 <div class="signature">
-<a href="https://magnushoff.com/">&mdash; Magnus Hovland Hoff, 2013</a>
+<a href="https://magnushoff.com/">&mdash; Magnus Hovland Hoff, 2019</a>
 </div>
 </div>
 </div>

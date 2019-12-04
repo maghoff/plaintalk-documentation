@@ -79,7 +79,7 @@ as well as suggestions for what you could write in the input box:
 PlainTalk is a <span title="A protocol that splits a stream into discrete messages, each
 message composed of any number of fields.">message and field framing protocol</span> that
 is human readable and writable and efficiently processable by computers. PlainTalk was designed by
-<a href="https://plus.google.com/+RolfWRasmussen">Rolf W. Rasmussen</a> as a
+<a href="https://twitter.com/ImNotThatHip">Rolf W. Rasmussen</a> as a
 simplification and generalization of the IMAP protocol syntax, for use in real
 time graphics systems for broadcast TV.
 </p>
@@ -166,6 +166,11 @@ escaping mechanism. If you would like to test the protocol interactively, use th
 <a href="#demo" class="link-to-terminal">simulated telnet session above</a>. Otherwise,
 you can go on to read the <a href="#definition">definition in English</a> or jump
 directly to the <a href="#abnf">definition in Augmented Backus Naur Form (ABNF)</a>.
+</p>
+
+<p>
+When you have a grasp of the basic syntax, continue on to the
+<a href="protocol-design-recommendations.html">protocol design recommendations</a>.
 </p>
 
 <h1 id="definition">Definition</h1>
@@ -297,6 +302,11 @@ a single empty field.
 This fully defines the protocol.
 </p>
 
+<p>
+For tips on how to design application level protocols using this syntax, read the
+<a href="protocol-design-recommendations.html">protocol design recommendations</a>.
+</p>
+
 <h1 id="abnf">Definition in Augmented Backus Naur Form</h1>
 
 <p>
@@ -333,6 +343,10 @@ which requires interpretation of an integer represented in ASCII.
 <span class="rule">number</span> <span class="equals">=</span> <span class="operator">*</span><span class="terminal" title='"0"-"9" or %x30-39'>DIGIT</span>
 </pre>
 
+<p>
+For tips on how to design application level protocols using this syntax, read the
+<a href="protocol-design-recommendations.html">protocol design recommendations</a>.
+</p>
 
 <div class="draft">
 <h1>Definition as state diagram</h1>
