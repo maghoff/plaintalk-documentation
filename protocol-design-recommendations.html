@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+<title>PlainTalk &ndash; Protocol design recommendations</title>
+
+<link href='https://fonts.googleapis.com/css?family=Cherry+Swash' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+<link href='https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+<link href='plaintalk.css' rel='stylesheet' type='text/css'>
+
+</head>
+<body>
+
+<div class="banner">
+<div class="content">
+<a href=".">PlainTalk</a>
+</div>
+
+<div class="under-banner">
+<div class="content">
+Protocol design recommendations
+</div>
+</div>
+</div>
+
+<div class="content">
+
+<p>
+Based on the <a href="introduction-and-definition.html">definition of PlainTalk</a>, we now
+have a workable syntax for message and field framing. This document gives some recommendations
+for what to put in those messages.
+</p>
+
+<h1>Do: support asynchronous message passing</h1>
+
+<p>Don't implement remote procedure calls (RPC). The difference between message passing and
+RPC is that operations in RPC are blocking while message passing allows multiple operations
+to be interleaved.
+</p>
+
+<p>
+To support a request and response-style protocol with asynchronous message passing, use the first
+field of every request as an identifier. The response then uses the same identifier, allowing
+responses to arrive out of order and be understood in connection to the corresponding request:
+</p>
+
+<pre class="plaintalk">
+<span class="message to-server"><span class="field">0</span> <span class="field">define</span> <span class="field">war</span></span>
+<span class="message to-server"><span class="field">1</span> <span class="field">define</span> <span class="field">freedom</span></span>
+<span class="message from-server"><span class="field">1</span> <span class="field">ok</span> <span class="field">freedom<span class="control">{1}</span> is<span class="control">{1}</span> slavery</span></span>
+<span class="message from-server"><span class="field">0</span> <span class="field">ok</span> <span class="field">war<span class="control">{1}</span> is<span class="control">{1}</span> peace</span></span>
+</pre>
+
+<p>
+A good format for the responses is <code>&lt;message-id&gt;</code>, then either <code>ok</code>
+or <code>error</code>. <code>ok</code> can be followed by whatever makes sense as the response
+for the request. <code>error</code> can be more standardized, with for example one field
+containing an error identifier (keep it human readable) an another field with a human readable
+description of the error situation.
+</p>
+
+<p>
+As an implementation concern it is worth noting that many protocols will likely handle messages
+mostly, or even completely, in order. It is then a good assumption that responses will arrive mostly in
+the same order as the requests were sent, making <i>deque</i> a good data structure for linking
+the responses to the correct request.
+</p>
+
+<p>
+<b>Do: Reserve an identifier</b> to be used for server-initiated events, for example <code>*</code>.
+Let's pretend user "mag" is joining a chat room:
+</p>
+
+<pre class="plaintalk">
+<span class="message from-server"><span class="field">*</span> <span class="field">join</span> <span class="field">mag</span></span>
+</pre>
+
+<p>
+With this basic structure, events can be sent by the server and handled by the client even when a
+long-running operation is in progress.
+</p>
+
+<p>
+Consider having the "result" of a request arrive as server-initiated events as an alternative to
+including everything in the <code>ok</code> response. This can be easier for transmitting lists of
+things, for example.
+</p>
+
+<h1>Do: use protocol negotiation</h1>
+
+<p>
+Start every connection with a <code>protocol</code> request:
+</p>
+
+<pre class="plaintalk">
+<span class="message to-server"><span class="field">0</span> <span class="field">protocol</span> <span class="field">chat</span> <span class="field">reactions</span></span>
+<span class="message from-server"><span class="field">0</span> <span class="field">ok</span> <span class="field">chat</span> <span class="field">stickers</span></span>
+</pre>
+
+<p>
+In the above exchange we see that the client first declares his supported protocol features to be
+"chat" and "reactions". The server responds with its entire list of supported features, in this
+case "chat" and "stickers". The negotiated protocol after this exchange is the intersection of
+features in both lists, namely just "chat" in this case.
+</p>
+
+<p>
+Since the server responds with its entire list of supported features regardless of what the client
+sends, we can save half a roundtrip time by having both the server and the client declare their
+protocol support up front:
+</p>
+
+<pre class="plaintalk">
+<span class="message from-server"><span class="field">*</span> <span class="field">protocol</span> <span class="field">chat</span> <span class="field">stickers</span></span>
+<span class="message to-server"><span class="field">0</span> <span class="field">protocol</span> <span class="field">chat</span> <span class="field">reactions</span></span>
+<span class="message from-server"><span class="field">0</span> <span class="field">ok</span></span>
+</pre>
+
+<p>
+<b>Do: Negotiate features</b>, not versions. It is easier to evolve the protocol to drop obsolete
+features this way. A feature in this list could include sets of available commands or maybe fixes
+to pre-existing features.
+</p>
+
+</div>
+
+<div class="footer">
+<div class="content">
+<div class="signature">
+<a href="https://magnushoff.com/">&mdash; Magnus Hovland Hoff, 2019</a>
+</div>
+</div>
+</div>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-18001522-7', 'magnushoff.com');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>
